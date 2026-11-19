@@ -3,6 +3,7 @@
   "answer_pdfs": [
     "ch15a.pdf"
   ],
+  "name":"Chapter 15: JDBC",
   "question_count": 21,
   "questions": [
     {
