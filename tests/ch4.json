@@ -1,0 +1,507 @@
+{
+  "source_pdf": "ch4q.pdf",
+  "answer_pdfs": [
+    "ch4a.pdf"
+  ],
+  "name": "Core APIs"
+  "question_count": 22,
+  "questions": [
+    {
+      "number": 1,
+      "question": "What is output by the following code? (Choose all that apply.)\n1: public class Fish {\n2:    public static void main(String[] args) {\n3:       int numFish = 4;\n4:       String fishType = \"tuna\";\n5:       String anotherFish = numFish + 1;\n6:       System.out.println(anotherFish + \" \" + fishType);\n7:       System.out.println(numFish + \" \" + 1);\n8: } }",
+      "choices": {
+        "A": "4 1",
+        "B": "5",
+        "C": "5 tuna",
+        "D": "5tuna",
+        "E": "51tuna",
+        "F": "The code does not compile."
+      },
+      "answer": "F",
+      "explanation": "Line 5 does not compile. This question is checking to see whether you are paying attention to the types. numFish is an int, and 1 is an int. Therefore, we use numeric addition and get 5. The problem is that we can’t store an int in a String variable. Suppose line 5 said String anotherFish = numFish + 1 + "";. In that case, the answers would be option A and option C. The variable defined on line 5 would be the string \"5\", and both output statements would use concatenation.",
+      "answer_pages": null,
+      "pages": [
+        1
+      ]
+    },
+    {
+      "number": 2,
+      "question": "Which of these array declarations are not legal? (Choose all that apply.)",
+      "choices": {
+        "A": "int[][] scores = new int[5][];",
+        "B": "Object[][][] cubbies = new Object[3][0][5];",
+        "C": "String beans[] = new beans[6];",
+        "D": "java.util.Date[] dates[] = new java.util.Date[2][];",
+        "E": "int[][] types = new int[];",
+        "F": "int[][] java = new int[][];"
+      },
+      "answer": ["C", "E", "F"],
+      "explanation": "Option C uses the variable name as if it were a type, which is clearly illegal. Options E and F don’t specify any size. Although it is legal to leave out the size for later dimensions of a multidimensional array, the first one is required. Option A declares a legal 2D array. Option B declares a legal 3D array. Option D declares a legal 2D array. Remember that it is normal to see classes on the exam you might not have learned. You aren’t expected to know anything about them.",
+      "answer_pages": null,
+      "pages": [
+        1
+      ]
+    },
+    {
+      "number": 3,
+      "question": "Note that March 13, 2022 is the weekend when we spring forward, and November 6, 2022\n      is when we fall back for daylight saving time. Which of the following can fill in the blank\n    without the code throwing an exception? (Choose all that apply.)\nvar zone = ZoneId.of(\"US/Eastern\");\nvar date =                                ;\nvar time = LocalTime.of(2, 15);\nvar z = ZonedDateTime.of(date, time, zone);",
+      "choices": {
+        "A": "LocalDate.of(2022, 3, 13)",
+        "B": "LocalDate.of(2022, 3, 40)",
+        "C": "LocalDate.of(2022, 11, 6)\n                                                   Review Questions        211",
+        "D": "LocalDate.of(2022, 11, 7)",
+        "E": "LocalDate.of(2023, 2, 29)",
+        "F": "LocalDate.of(2022, MonthEnum.MARCH, 13);"
+      },
+      "answer": ["A", "C", "D"],
+      "explanation": "Option B throws an exception because there is no March 40. Option E also throws an exception because 2023 isn’t a leap year and therefore has no February 29. Option F doesn’t compile because the enum should be named Month, rather than MonthEnum. Option D is correct because it is just a regular date and has nothing to do with daylight saving time. Options A and C are correct because Java is smart enough to adjust for daylight saving time.",
+      "answer_pages": null,
+      "pages": [
+        1,
+        2
+      ]
+    },
+    {
+      "number": 4,
+      "question": "Which of the following are output by this code? (Choose all that apply.)\n3: var s = \"Hello\";\n4: var t = new String(s);\n5: if (\"Hello\".equals(s)) System.out.println(\"one\");\n6: if (t == s) System.out.println(\"two\");\n7: if (t.intern() == s) System.out.println(\"three\");\n8: if (\"Hello\" == s) System.out.println(\"four\");\n9: if (\"Hello\".intern() == t) System.out.println(\"five\");",
+      "choices": {
+        "A": "one",
+        "B": "two",
+        "C": "three",
+        "D": "four",
+        "E": "five",
+        "F": "The code does not compile.",
+        "G": "None of the above"
+      },
+      "answer": ["A", "C", "D"],
+      "explanation": "The code compiles fine. Line 3 points to the String in the string pool. Line 4 calls the String constructor explicitly and is therefore a different object than s. Line 5 checks for object equality, which is true, and so it prints one. Line 6 uses object reference equality, which is not true since we have different objects. Line 7 calls intern(), which returns the value from the string pool and is therefore the same reference as s. Line 8 also compares references but is true since both references point to the object from the string pool. Finally, line 9 is a trick. The string Hello is already in the string pool, so calling intern() does not change anything. The reference t is a different object, so the result is still false.",
+      "answer_pages": null,
+      "pages": [
+        2
+      ]
+    },
+    {
+      "number": 5,
+      "question": "What is the result of the following code?\n7: var sb = new StringBuilder();\n8: sb.append(\"aaa\").insert(1, \"bb\").insert(4, \"ccc\");\n9: System.out.println(sb);",
+      "choices": {
+        "A": "abbaaccc",
+        "B": "abbaccca",
+        "C": "bbaaaccc",
+        "D": "bbaaccca",
+        "E": "An empty line",
+        "F": "The code does not compile."
+      },
+      "answer": "B",
+      "explanation": "This example uses method chaining. After the call to append(), sb contains \"aaa\". That result is passed to the first insert() call, which inserts at index 1. At this point, sb contains abbaa. That result is passed to the final insert(), which inserts at index 4, resulting in abbaccca.",
+      "answer_pages": null,
+      "pages": [
+        2
+      ]
+    },
+    {
+      "number": 6,
+      "question": "How many of these lines contain a compiler error? (Choose all that apply.)\n23: double one = Math.pow(1, 2);\n24: int two = Math.round(1.0);\n25: float three = Math.random();\n26: var doubles = new double[] {one, two, three};",
+      "choices": {
+        "A": "0",
+        "B": "1"
+        "C": "2",
+        "D": "3",
+        "E": "4"
+      },
+      "answer": "C",
+      "explanation": "Remember to watch return types on math operations. One of the tricks is line 24. The\n   round() method returns an int when called with a float. However, we are calling it with\n    a double, so it returns a long. The other trick is line 25. The random() method returns a\n    double. Since two lines have a compiler error, option C is the answer.",
+      "answer_pages": [
+        2
+      ],
+      "pages": [
+        2,
+        3
+      ]
+    },
+    {
+      "number": 7,
+      "question": "Which of these statements is true of the two values? (Choose all that apply.)\n2022–08–28T05:00 GMT-04:00\n2022–08–28T09:00 GMT-06:00",
+      "choices": {
+        "A": "The first date/time is earlier.",
+        "B": "The second date/time is earlier.",
+        "C": "Both date/times are the same.",
+        "D": "The date/times are two hours apart.",
+        "E": "The date/times are six hours apart.",
+        "F": "The date/times are 10 hours apart."
+      },
+      "answer": [
+        "A",
+        "E"
+      ],
+      "explanation": "When dealing with time zones, it is best to convert to GMT first by subtracting the\n    time zone. Remember that subtracting a negative is like adding. The first date/time is 9:00\n   GMT, and the second is 15:00 GMT. Therefore, the first one is earlier by six hours.",
+      "answer_pages": [
+        2
+      ],
+      "pages": [
+        3
+      ]
+    },
+    {
+      "number": 8,
+      "question": "Which of the following return 5 when run independently? (Choose all that apply.)\nvar string = \"12345\";\nvar builder = new StringBuilder(\"12345\");",
+      "choices": {
+        "A": "builder.charAt(4)",
+        "B": "builder.replace(2, 4, \"6\").charAt(3)",
+        "C": "builder.replace(2, 5, \"6\").charAt(2)",
+        "D": "string.charAt(5)",
+        "E": "string.length",
+        "F": "string.replace(\"123\", \"1\").charAt(2)",
+        "G": "None of the above"
+      },
+      "answer": [
+        "A",
+        "B",
+        "F"
+      ],
+      "explanation": "Remember that indexes are zero-based, which means index 4 corresponds to 5, and\n    option A is correct. For option B, the replace() method starts the replacement at index 2\n    and ends before index 4. This means two characters are replaced, and charAt(3) is called\n    on the intermediate value of 1265. The character at index 3 is 5, making option B correct.\n    Option C is similar, making the intermediate value 126 and returning 6.\n    Option D results in an exception since there is no character at index 5. Option E is incorrect.\n      It does not compile because the parentheses for the length() method are missing. Finally,\n    option F’s replace results in the intermediate value 145. The character at index 2 is 5, so\n    option F is correct.",
+      "answer_pages": [
+        2
+      ],
+      "pages": [
+        3
+      ]
+    },
+    {
+      "number": 9,
+      "question": "Which of the following are true about arrays? (Choose all that apply.)",
+      "choices": {
+        "A": "The first element is index 0.",
+        "B": "The first element is index 1.",
+        "C": "Arrays are fixed size.",
+        "D": "Arrays are immutable.",
+        "E": "Calling equals() on two different arrays containing the same primitive values always\n         returns true.",
+        "F": "Calling equals() on two different arrays containing the same primitive values always\n         returns false.",
+        "G": "Calling equals() on two different arrays containing the same primitive values can return\n       true or false.\n                                                   Review Questions        213"
+      },
+      "answer": [
+        "A",
+        "C",
+        "F"
+      ],
+      "explanation": "Arrays are zero-indexed, making option A correct and option B incorrect. They are\n    not able to change size, which is option C. The values can be changed, making option D\n     incorrect. An array does not override equals(), so it uses object equality. Since two differ-\n     ent objects are not equal, option F is correct, and options E and G are incorrect.",
+      "answer_pages": [
+        2
+      ],
+      "pages": [
+        3,
+        4
+      ]
+    },
+    {
+      "number": 10,
+      "question": "How many of these lines contain a compiler error? (Choose all that apply.)\n23: int one = Math.min(5, 3);\n24: long two = Math.round(5.5);\n25: double three = Math.floor(6.6);\n26: var doubles = new double[] {one, two, three};",
+      "choices": {
+        "A": "0",
+        "B": "1",
+        "C": "2",
+        "D": "3",
+        "E": "4"
+      },
+      "answer": "A",
+      "explanation": "All of these lines compile. The min() and floor() methods return the same type passed\n     in: int and double, respectively. The round() method returns a long when called with a\n    double. Option A is correct since the code compiles.",
+      "answer_pages": [
+        2
+      ],
+      "pages": [
+        4
+      ]
+    },
+    {
+      "number": 11,
+      "question": "What is the output of the following code?\nvar date = LocalDate.of(2022, 4, 3);\ndate.plusDays(2);\ndate.plusHours(3);\nSystem.out.println(date.getYear() + \" \" + date.getMonth()\n    + \" \" + date.getDayOfMonth());",
+      "choices": {
+        "A": "2022 MARCH 4",
+        "B": "2022 MARCH 6",
+        "C": "2022 APRIL 3",
+        "D": "2022 APRIL 5",
+        "E": "The code does not compile.",
+        "F": "A runtime exception is thrown."
+      },
+      "answer": "E",
+      "explanation": "A LocalDate does not have a time element. Therefore, there is no method to add hours,\n    making option E the answer.",
+      "answer_pages": [
+        2
+      ],
+      "pages": [
+        4
+      ]
+    },
+    {
+      "number": 12,
+      "question": "What is output by the following code? (Choose all that apply.)\nvar numbers = \"012345678\".indent(1);\nnumbers = numbers.stripLeading();\nSystem.out.println(numbers.substring(1, 3));\nSystem.out.println(numbers.substring(7, 7));\nSystem.out.print(numbers.substring(7));",
+      "choices": {
+        "A": "12",
+        "B": "123",
+        "C": "7",
+        "D": "78",
+        "E": "A blank line",
+        "F": "The code does not compile.",
+        "G": "An exception is thrown.\n214      Chapter 4  ■  Core APIs"
+      },
+      "answer": [
+        "A",
+        "D",
+        "E"
+      ],
+      "explanation": "First, notice that the indent() call adds a blank space to the beginning of\n    numbers, and stripLeading() immediately removes it. Therefore, these methods cancel\n    each other out and have no effect. The substring() method has two forms. The first takes\n     the index to start with and the index to stop immediately before. The second takes just the\n    index to start with and goes to the end of the String. Remember that indexes are zero-\n    based. The first call starts at index 1 and ends with index 2 since it needs to stop before index\n     3. This gives us option A. The second call starts at index 7 and ends in the same place, result-\n    ing in an empty String which is option E. This prints out a blank line. The final call starts\n     at index 7 and goes to the end of the String finishing up with option D.",
+      "answer_pages": [
+        2
+      ],
+      "pages": [
+        4,
+        5
+      ]
+    },
+    {
+      "number": 13,
+      "question": "What is the result of the following code?\npublic class Lion {\n   public void roar(String roar1, StringBuilder roar2) {\n      roar1.concat(\"!!!\");\n      roar2.append(\"!!!\");\n   }\n   public static void main(String[] args) {\n      var roar1 = \"roar\";\n      var roar2 = new StringBuilder(\"roar\");\n      new Lion().roar(roar1, roar2);\n      System.out.println(roar1 + \" \" + roar2);\n} }",
+      "choices": {
+        "A": "roar roar",
+        "B": "roar roar!!!",
+        "C": "roar!!! roar",
+        "D": "roar!!! roar!!!",
+        "E": "An exception is thrown.",
+        "F": "The code does not compile."
+      },
+      "answer": "B",
+      "explanation": "A String is immutable. Calling concat() returns a new String but does not change\n     the original. A StringBuilder is mutable. Calling append() adds characters to the exist-\n    ing character sequence along with returning a reference to the same object. Therefore, option\n   B is correct.",
+      "answer_pages": [
+        2
+      ],
+      "pages": [
+        5
+      ]
+    },
+    {
+      "number": 14,
+      "question": "Given the following, which can correctly fill in the blank? (Choose all that apply.)\nvar date = LocalDate.now();\nvar time = LocalTime.now();\nvar dateTime = LocalDateTime.now();\nvar zoneId = ZoneId.systemDefault();\nvar zonedDateTime = ZonedDateTime.of(dateTime, zoneId);\nInstant instant =                               ;",
+      "choices": {
+        "A": "Instant.now()",
+        "B": "new Instant()",
+        "C": "date.toInstant()",
+        "D": "dateTime.toInstant()",
+        "E": "time.toInstant()",
+        "F": "zonedDateTime.toInstant()"
+      },
+      "answer": [
+        "A",
+        "F"
+      ],
+      "explanation": "Option A correctly creates the current instant. Option F is also a proper conversion.\n    Option B is incorrect because Instant, like many other date/time classes, does not have\n    a public constructor and is instantiated via methods. Options C, D, and E are incorrect\n    because the source object does not represent a point in time. Without a time zone, Java\n     doesn’t know what moment in time to use for the Instant.\n                                                    Chapter 4: Core APIs        923",
+      "answer_pages": [
+        2,
+        3
+      ],
+      "pages": [
+        5
+      ]
+    },
+    {
+      "number": 15,
+      "question": "What is the output of the following? (Choose all that apply.)\nvar arr = new String[] { \"PIG\", \"pig\", \"123\"};\nArrays.sort(arr);\nSystem.out.println(Arrays.toString(arr));\nSystem.out.println(Arrays.binarySearch(arr, \"Pippa\"));\n                                                   Review Questions        215",
+      "choices": {
+        "A": "[pig, PIG, 123]",
+        "B": "[PIG, pig, 123]",
+        "C": "[123, PIG, pig]",
+        "D": "[123, pig, PIG]",
+        "E": "-3",
+        "F": "-2",
+        "G": "The results of binarySearch() are undefined in this example."
+      },
+      "answer": [
+        "C",
+        "E"
+      ],
+      "explanation": "Numbers sort before letters and uppercase sorts before lowercase. This makes option\n   C one of the answers. The binarySearch() method looks at where a value would be\n     inserted, which is before the second element for Pippa. It then negates it and subtracts one,\n    which is option E.",
+      "answer_pages": [
+        3
+      ],
+      "pages": [
+        5,
+        6
+      ]
+    },
+    {
+      "number": 16,
+      "question": "What is included in the output of the following code? (Choose all that apply.)\nvar base = \"ewe\\nsheep\\\\t\";\nint length = base.length();\nint indent = base.indent(2).length();\nint translate = base.translateEscapes().length();\n\nvar formatted = \"%s %s %s\".formatted(length, indent, translate);\nSystem.out.format(formatted);",
+      "choices": {
+        "A": "10",
+        "B": "11",
+        "C": "12",
+        "D": "13",
+        "E": "14",
+        "F": "15",
+        "G": "16"
+      },
+      "answer": [
+        "A",
+        "B",
+        "G"
+      ],
+      "explanation": "There are 11 characters in base because there are two escape characters. The \\n\n    counts as one character representing a new line, and the \\\\ counts as one character repre-\n     senting a backslash. This makes option B one of the answers. The indent() method adds\n    two characters to the beginning of each of the two lines of base. This gives us four addi-\n     tional characters. However, the method also normalizes by adding a new line to the end if\n       it is missing. The extra character means we add five characters to the existing 11, which is\n    option G. Finally, the translateEscapes() method turns any text escape characters into\n     actual escape characters, making \\\\t into \\t. This gets rid of one character, leaving us with\n    10 characters matching option A.",
+      "answer_pages": [
+        3
+      ],
+      "pages": [
+        6
+      ]
+    },
+    {
+      "number": 17,
+      "question": "Which of these statements are true? (Choose all that apply.)\nvar letters = new StringBuilder(\"abcdefg\");",
+      "choices": {
+        "A": "letters.substring(1, 2) returns a single-character String.",
+        "B": "letters.substring(2, 2) returns a single-character String.",
+        "C": "letters.substring(6, 5) returns a single-character String.",
+        "D": "letters.substring(6, 6) returns a single-character String.",
+        "E": "letters.substring(1, 2) throws an exception.",
+        "F": "letters.substring(2, 2) throws an exception.",
+        "G": "letters.substring(6, 5) throws an exception.",
+        "H": "letters.substring(6, 6) throws an exception."
+      },
+      "answer": [
+        "A",
+        "G"
+      ],
+      "explanation": "The substring() method includes the starting index but not the ending index.\n   When called with 1 and 2, it returns a single-character String, making option A correct and\n    option E incorrect. Calling substring() with 2 as both parameters is legal. It\n     returns an empty String, making options B and F incorrect. Java does not allow the\n    indexes to be specified in reverse order. Option G is correct because it throws a\n   StringIndexOutOfBoundsException. Finally, option H is incorrect because it returns\n    an empty String.",
+      "answer_pages": [
+        3
+      ],
+      "pages": [
+        6
+      ]
+    },
+    {
+      "number": 18,
+      "question": "What is the result of the following code? (Choose all that apply.)\n13: String s1 = \"\"\"\n14:    purr\"\"\";\n216      Chapter 4  ■  Core APIs\n\n15: String s2 = \"\";\n16:\n17: s1.toUpperCase();\n18: s1.trim();\n19: s1.substring(1, 3);\n20: s1 += \"two\";\n21:\n22: s2 += 2;\n23: s2 += 'c';\n24: s2 += false;\n25:\n26: if ( s2 == \"2cfalse\") System.out.println(\"==\");\n27: if ( s2.equals(\"2cfalse\")) System.out.println(\"equals\");\n28: System.out.println(s1.length());",
+      "choices": {
+        "A": "2",
+        "B": "4",
+        "C": "7",
+        "D": "10",
+        "E": "==",
+        "F": "equals",
+        "G": "An exception is thrown.",
+        "H": "The code does not compile."
+      },
+      "answer": [
+        "C",
+        "F"
+      ],
+      "explanation": "This question is tricky because it has several parts. First, you have to know that the text\n    block on lines 13 and 14 is equivalent to a regular String. Since there is no line break at\n     the end, this is four characters. Then, you have to know that String objects are immutable,\n    which means the results of lines 17–19 are ignored. Finally, on line 20, something happens.\n   We concatenate three new characters to s1 and now have a String of length 7, making\n    option C correct.\n    Next, s2 += 2 expands to s2 = s2 + 2. A String concatenated with any other type\n     gives a String. Lines 22, 23, and 24 all append to s2, giving a result of \"2cfalse\". The\n   if statement on line 27 returns true because the values of the two String objects are\n     the same using object equality. The if statement on line 26 returns false because the two\n   String objects are not the same in memory. One comes directly from the string pool, and\n     the other comes from building using String operations.",
+      "answer_pages": [
+        3
+      ],
+      "pages": [
+        6,
+        7
+      ]
+    },
+    {
+      "number": 19,
+      "question": "Which of the following fill in the blank to print a positive integer? (Choose all that apply.)\nString[] s1 = { \"Camel\", \"Peacock\", \"Llama\"};\nString[] s2 = { \"Camel\", \"Llama\", \"Peacock\"};\nString[] s3 = { \"Camel\"};\nString[] s4 = { \"Camel\", null};\nSystem.out.println(Arrays.                      );",
+      "choices": {
+        "A": "compare(s1, s2)",
+        "B": "mismatch(s1, s2)",
+        "C": "compare(s3, s4)",
+        "D": "mismatch (s3, s4)",
+        "E": "compare(s4, s4)",
+        "F": "mismatch (s4, s4)\n                                                   Review Questions        217"
+      },
+      "answer": [
+        "A",
+        "B",
+        "D"
+      ],
+      "explanation": "The compare() method returns a positive integer when the arrays are different and\n     the first is larger. This is the case for option A since the element at index 1 comes first alpha-\n     betically. It is not the case for option C because the s4 is longer or for option E because the\n    arrays are the same.\n    The mismatch() method returns a positive integer when the arrays are different in a posi-\n     tion index 1 or greater. This is the case for options B and D since the difference is at index 1.\n      It is not the case for option F because there is no difference.",
+      "answer_pages": [
+        3
+      ],
+      "pages": [
+        7,
+        8
+      ]
+    },
+    {
+      "number": 20,
+      "question": "Note that March 13, 2022 is the weekend that clocks spring ahead for daylight saving time.\n   What is the output of the following? (Choose all that apply.)\nvar date = LocalDate.of(2022, Month.MARCH, 13);\nvar time = LocalTime.of(1, 30);\nvar zone = ZoneId.of(\"US/Eastern\");\nvar dateTime1 = ZonedDateTime.of(date, time, zone);\nvar dateTime2 = dateTime1.plus(1, ChronoUnit.HOURS);\n\nlong diff = ChronoUnit.HOURS.between(dateTime1, dateTime2);\nint hour = dateTime2.getHour();\nboolean offset = dateTime1.getOffset()\n   == dateTime2.getOffset();\nSystem.out.println(\"diff = \" + diff);\nSystem.out.println(\"hour = \" + hour);\nSystem.out.println(\"offset = \" + offset);",
+      "choices": {
+        "A": "diff = 1",
+        "B": "diff = 2",
+        "C": "hour = 2",
+        "D": "hour = 3",
+        "E": "offset = true",
+        "F": "The code does not compile.",
+        "G": "A runtime exception is thrown."
+      },
+      "answer": [
+        "A",
+        "D"
+      ],
+      "explanation": "The dateTime1 object has a time of 1:30 per initialization. The dateTime2 object\n      is an hour later. However, there is no 2:30 when springing ahead, setting the time to 3:30.\n    Option A is correct because it is an hour later. Option D is also correct because the hour of\n     the new time is 3. Option E is not correct because we have changed the time zone offset due\n    to daylight saving time.\n924      Appendix  ■  Answers to the Review Questions",
+      "answer_pages": [
+        3,
+        4
+      ],
+      "pages": [
+        8
+      ]
+    },
+    {
+      "number": 21,
+      "question": "Which of the following can fill in the blank to print avaJ? (Choose all that apply.)\n3: var puzzle = new StringBuilder(\"Java\");\n4: puzzle.                        ;\n5: System.out.println(puzzle);",
+      "choices": {
+        "A": "reverse()",
+        "B": "append(\"vaJ$\").substring(0, 4)",
+        "C": "append(\"vaJ$\").delete(0, 3).deleteCharAt(puzzle.length() -1)",
+        "D": "append(\"vaJ$\").delete(0, 3).deleteCharAt(puzzle.length())",
+        "E": "None of the above"
+      },
+      "answer": [
+        "A",
+        "C"
+      ],
+      "explanation": "The reverse() method is the easiest way of reversing the characters in a\n   StringBuilder; therefore, option A is correct. In option B, substring() returns a\n    String, which is not stored anywhere. Option C uses method chaining. First, it creates the\n    value \"JavavaJ$\". Then, it removes the first three characters, resulting in \"avaJ$\". Finally,\n       it removes the last character, resulting in \"avaJ\". Option D throws an exception because\n    you cannot delete the character after the last index. Remember that deleteCharAt() uses\n    indexes that are zero-based, and length() counts the number of characters rather than\n     the index.",
+      "answer_pages": [
+        4
+      ],
+      "pages": [
+        8
+      ]
+    },
+    {
+      "number": 22,
+      "question": "What is the output of the following code?\nvar date = LocalDate.of(2022, Month.APRIL, 30);\ndate.plusDays(2);\ndate.plusYears(3);\nSystem.out.println(date.getYear() + \" \" + date.getMonth()\n   + \" \" + date.getDayOfMonth());\n218      Chapter 4  ■  Core APIs",
+      "choices": {
+        "A": "2022 APRIL 30",
+        "B": "2022 MAY 2",
+        "C": "2025 APRIL 2",
+        "D": "2025 APRIL 30",
+        "E": "2025 MAY 2",
+        "F": "The code does not compile.",
+        "G": "A runtime exception is thrown."
+      },
+      "answer": "A",
+      "explanation": "The date starts out as April 30, 2022. Since dates are immutable and the plus methods’\n    return values are ignored, the result is unchanged. Therefore, option A is correct.\n\nChapter 5: Methods",
+      "answer_pages": [
+        4
+      ],
+      "pages": [
+        8,
+        9
+      ]
+    }
+  ],
+  "warnings": [
+    "Question number 1: found 1 question(s) and 2 answer entr(y/ies); left answers unmatched.",
+    "Question number 2: found 1 question(s) and 2 answer entr(y/ies); left answers unmatched.",
+    "Question number 3: found 1 question(s) and 2 answer entr(y/ies); left answers unmatched.",
+    "Question number 4: found 1 question(s) and 2 answer entr(y/ies); left answers unmatched.",
+    "Question number 5: found 1 question(s) and 2 answer entr(y/ies); left answers unmatched."
+  ]
+}

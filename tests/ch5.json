@@ -1,0 +1,461 @@
+{
+  "source_pdf": "ch5q.pdf",
+  "answer_pdfs": [
+    "ch5a.pdf"
+  ],
+  "name": "Chapter 5: Methods",
+  "question_count": 21,
+  "questions": [
+    {
+      "number": 1,
+      "question": "Which statements about the final modifier are correct? (Choose all that apply.)",
+      "choices": {
+        "A": "Instance and static variables can be marked final.",
+        "B": "A variable is effectively final only if it is marked final.",
+        "C": "An object that is marked final cannot be modified.",
+        "D": "Local variables cannot be declared with type var and the final modifier.",
+        "E": "A primitive that is marked final cannot be modified."
+      },
+      "answer": ["A", "E"],
+      "explanation": "Instance and static variables can be marked final, making option A correct. Effectively final means a local variable is not marked final but whose value does not change after it is set, making option B incorrect. Option C is incorrect, as final refers only to the reference to an object, not its contents. Option D is incorrect, as var and final can be used together. Finally, option E is correct: once a primitive is marked final, it cannot be modified.",
+      "answer_pages": null,
+      "pages": [
+        1
+      ]
+    },
+    {
+      "number": 2,
+      "question": "Which of the following can fill in the blank in this code to make it compile? (Choose all\n     that apply.)\npublic class Ant {\n         void method() {}\n}",
+      "choices": {
+        "A": "default",
+        "B": "final",
+        "C": "private",
+        "D": "Public",
+        "E": "String",
+        "F": "zzz:"
+      },
+      "answer": ["B", "C"],
+      "explanation": "The keyword void is a return type. Only the access modifier or optional specifiers are allowed before the return type. Option C is correct, creating a method with private access. Option B is also correct, creating a method with package access and the optional specifier final. Since package access does not use a modifier, we get to jump right tofinal. Option A is incorrect because package access omits the access modifier rather than specifying default. Option D is incorrect because Java is case sensitive. It would have been correct if public were the choice. Option E is incorrect because the method already has a void return type. Option F is incorrect because labels are not allowed for methods.",
+      "answer_pages": null,
+      "pages": [
+        1
+      ]
+    },
+    {
+      "number": 3,
+      "question": "Which of the following methods compile? (Choose all that apply.)",
+      "choices": {
+        "A": "final static void rain() {}",
+        "B": "public final int void snow() {}",
+        "C": "private void int hail() {}",
+        "D": "static final void sleet() {}",
+        "E": "void final ice() {}",
+        "F": "void public slush() {}"
+      },
+      "answer": ["A", "D"],
+      "explanation": "Options A and D are correct because the optional specifiers are allowed in any order. Options B and C are incorrect because they each have two return types. Options E and F are incorrect because the return type is before the optional specifier and access modifier, respectively.",
+      "answer_pages": null,
+      "pages": [
+        1
+      ]
+    },
+    {
+      "number": 4,
+      "question": "Which of the following can fill in the blank and allow the code to compile? (Choose all that apply.)\nfinal          song = 6;",
+      "choices": {
+        "A": "int",
+        "B": "Integer",
+        "C": "long",
+        "D": "Long",
+        "E": "double",
+        "F": "Double"
+      },
+      "answer": ["A", "B", "C", "E"],
+      "explanation": "Options A and C are correct because a void method is optionally allowed to have a return statement as long as it doesn’t try to return a value. Option B does not compile because null requires a reference object as the return type. Since int is primitive, it is not a reference object. Option D is correct because it returns an int value. Option E does not compile because it tries to return a double when the return type is int. Since a double cannot be assigned to an int, it cannot be returned as one either. Option F does not compile because no value is actually returned.",
+      "answer_pages": null,
+      "pages": [
+        1,
+        2
+      ]
+    },
+    {
+      "number": 5,
+      "question": "Which of the following methods compile? (Choose all that apply.)",
+      "choices": {
+        "A": "public void january() { return; }",
+        "B": "public int february() { return null;}",
+        "C": "public void march() {}",
+        "D": "public int april() { return 9;}",
+        "E": "public int may() { return 9.0;}",
+        "F": "public int june() { return;}"
+      },
+      "answer": null,
+      "explanation": null,
+      "answer_pages": null,
+      "pages": [
+        2
+      ]
+    },
+    {
+      "number": 6,
+      "question": "Which of the following methods compile? (Choose all that apply.)",
+      "choices": {
+        "A": "public void violin(int... nums) {}",
+        "B": "public void viola(String values, int... nums) {}",
+        "C": "public void cello(int... nums, String values) {}",
+        "D": "public void bass(String... values, int... nums) {}",
+        "E": "public void flute(String[] values, ...int nums) {}",
+        "F": "public void oboe(String[] values, int[] nums) {}"
+      },
+      "answer": [
+        "A",
+        "B",
+        "F"
+      ],
+      "explanation": "Options A and B are correct because the single varargs parameter is the last param-\n     eter declared. Option F is correct because it doesn’t use any varargs parameters. Option C is\n     incorrect because the varargs parameter is not last. Option D is incorrect because two varargs\n    parameters are not allowed in the same method. Option E is incorrect because the ... for a\n    varargs must be after the type, not before it.",
+      "answer_pages": [
+        2
+      ],
+      "pages": [
+        2
+      ]
+    },
+    {
+      "number": 7,
+      "question": "Given the following method, which of the method calls return 2? (Choose all that apply.)\npublic int juggle(boolean b, boolean... b2) {\n   return b2.length;\n}",
+      "choices": {
+        "A": "juggle();",
+        "B": "juggle(true);",
+        "C": "juggle(true, true);",
+        "D": "juggle(true, true, true);",
+        "E": "juggle(true, {true, true});",
+        "F": "juggle(true, new boolean[2]);"
+      },
+      "answer": [
+        "D",
+        "F"
+      ],
+      "explanation": "Option D passes the initial parameter plus two more to turn into a varargs array of size\n     2. Option F passes the initial parameter plus an array of size 2. Option A does not compile\n    because it does not pass the initial parameter. Option E does not compile because it does not\n     declare an array properly. It should be new boolean[] {true, true}. Option B creates\n    a varargs array of size 0, and option C creates a varargs array of size 1.",
+      "answer_pages": [
+        2
+      ],
+      "pages": [
+        2
+      ]
+    },
+    {
+      "number": 8,
+      "question": "Which of the following statements is correct?",
+      "choices": {
+        "A": "Package access is more lenient than protected access.",
+        "B": "A public class that has private fields and package methods is not visible to classes\n         outside the package.",
+        "C": "You can use access modifiers so only some of the classes in a package see a particular\n        package class.",
+        "D": "You can use access modifiers to allow access to all methods and not any instance vari-\n          ables.",
+        "E": "You can use access modifiers to restrict access to all classes that begin with the word\n       Test.\n                                                   Review Questions        267"
+      },
+      "answer": "D",
+      "explanation": "Option D is correct. A common practice is to set all fields to be private and all\n    methods to be public. Option A is incorrect because protected access allows everything\n     that package access allows and additionally allows subclasses access. Option B is incor-\n     rect because the class is public. This means that other classes can see the class. However,\n    they cannot call any of the methods or read any of the fields. It is essentially a useless class.\n    Option C is incorrect because package access applies to the whole package. Option E is\n     incorrect because Java has no such wildcard access capability.",
+      "answer_pages": [
+        2
+      ],
+      "pages": [
+        2,
+        3
+      ]
+    },
+    {
+      "number": 9,
+      "question": "Given the following class definitions, which lines in the main() method generate a compiler\n     error? (Choose all that apply.)\n// Classroom.java\npackage my.school;\npublic class Classroom {\n   private int roomNumber;\n   protected static String teacherName;\n   static int globalKey = 54321;\n   public static int floor = 3;\n   Classroom(int r, String t) {\n      roomNumber = r;\n      teacherName = t; } }\n\n// School.java\n1: package my.city;\n2: import my.school.*;\n3: public class School {\n4:    public static void main(String[] args) {\n5:       System.out.println(Classroom.globalKey);\n6:       Classroom room = new Classroom(101, \"Mrs. Anderson\");\n7:       System.out.println(room.roomNumber);\n8:       System.out.println(Classroom.floor);\n9:       System.out.println(Classroom.teacherName); } }",
+      "choices": {
+        "A": "None: the code compiles fine.",
+        "B": "Line 5",
+        "C": "Line 6",
+        "D": "Line 7",
+        "E": "Line 8",
+        "F": "Line 9"
+      },
+      "answer": [
+        "B",
+        "C",
+        "D",
+        "F"
+      ],
+      "explanation": "The two classes are in different packages, which means private access and\n    package access will not compile. This causes compiler errors on lines 5, 6, and 7, making\n    options B, C, and D correct answers. Additionally, protected access will not compile since\n   School does not inherit from Classroom. This causes the compiler error on line 9, making\n    option F a correct answer as well.",
+      "answer_pages": [
+        2
+      ],
+      "pages": [
+        3
+      ]
+    },
+    {
+      "number": 10,
+      "question": "What is the output of executing the Chimp program?\n// Rope.java\n1: package rope;\n2: public class Rope {\n3:    public static int LENGTH = 5;\n4:    static {\n5:       LENGTH = 10;\n6:    }\n7:    public static void swing() {\n268      Chapter 5  ■  Methods\n\n8:       System.out.print(\"swing \");\n9:    } }\n\n// Chimp.java\n1: import rope.*;\n2: import static rope.Rope.*;\n3: public class Chimp {\n4:    public static void main(String[] args) {\n5:       Rope.swing();\n6:       new Rope().swing();\n7:       System.out.println(LENGTH);\n8:    } }",
+      "choices": {
+        "A": "swing swing 5",
+        "B": "swing swing 10",
+        "C": "Compiler error on line 2 of Chimp",
+        "D": "Compiler error on line 5 of Chimp",
+        "E": "Compiler error on line 6 of Chimp",
+        "F": "Compiler error on line 7 of Chimp"
+      },
+      "answer": "B",
+      "explanation": "Rope runs line 3, setting LENGTH to 5, and then immediately after that runs the\n   static initializer, which sets it to 10. Line 5 in the Chimp class calls the static method\n    normally and prints swing and a space. Line 6 also calls the static method. Java allows\n     calling a static method through an instance variable, although it is not recommended.\n    Line 7 uses the static import on line 2 to reference LENGTH. For these reasons, option B\n      is correct.",
+      "answer_pages": [
+        2
+      ],
+      "pages": [
+        3,
+        4
+      ]
+    },
+    {
+      "number": 11,
+      "question": "Which statements are true of the following code? (Choose all that apply.)\n1:  public class Rope {\n2:     public static void swing() {\n3:        System.out.print(\"swing\");\n4:     }\n5:     public void climb() {\n6:        System.out.println(\"climb\");\n7:     }\n8:     public static void play() {\n9:        swing();\n10:       climb();\n11:    }\n12:    public static void main(String[] args) {\n13:       Rope rope = new Rope();\n14:       rope.play();\n15:       Rope rope2 = null;\n16:       System.out.print(\"-\");\n17:       rope2.play();\n18:    } }\n                                                   Review Questions        269",
+      "choices": {
+        "A": "The code compiles as is.",
+        "B": "There is exactly one compiler error in the code.",
+        "C": "There are exactly two compiler errors in the code.",
+        "D": "If the line(s) with compiler errors are removed, the output is swing-climb.",
+        "E": "If the line(s) with compiler errors are removed, the output is swing-swing.",
+        "F": "If the line(s) with compile errors are removed, the code throws a NullPointerException."
+      },
+      "answer": [
+        "B",
+        "E"
+      ],
+      "explanation": "Line 10 does not compile because static methods are not allowed to call instance\n    methods. Even though we are calling play() as if it were an instance method and an in-\n     stance exists, Java knows play() is really a static method and treats it as such. Since\n     this is the only line that does not compile, option B is correct. If line 10 is removed, the\n    code prints swing-swing, making option E correct. It does not throw a\n   NullPointerException on line 17 because play() is a static method. Java looks at\n     the type of the reference for rope2 and translates the call to Rope.play().",
+      "answer_pages": [
+        2
+      ],
+      "pages": [
+        4,
+        5
+      ]
+    },
+    {
+      "number": 12,
+      "question": "How many variables in the following method are effectively final?\n10: public void feed() {\n11:    int monkey = 0;\n12:    if(monkey > 0) {\n13:       var giraffe = monkey++;\n14:       String name;\n15:       name = \"geoffrey\";\n16:    }\n17:    String name = \"milly\";\n18:    var food = 10;\n19:    while(monkey <= 10) {\n20:       food = 0;\n21:    }\n22:    name = null;\n23: }",
+      "choices": {
+        "A": "1",
+        "B": "2",
+        "C": "3",
+        "D": "4",
+        "E": "5",
+        "F": "None of the above. The code does not compile."
+      },
+      "answer": "B",
+      "explanation": "The test for effectively final is if the final modifier can be added to the local variable\n    and the code still compiles. The monkey variable declared on line 11 is not effectively final\n    because it is modified on line 13. The giraffe and name variables declared on lines 13 and\n    14, respectively, are effectively final and not modified after they are set. The name variable\n    declared on line 17 is not effectively final since it is modified on line 22. Finally, the food\n     variable on line 18 is not effectively final since it is modified on line 20. Since there are two\n     effectively final variables, option B is correct.\n926      Appendix  ■  Answers to the Review Questions",
+      "answer_pages": [
+        2,
+        3
+      ],
+      "pages": [
+        5
+      ]
+    },
+    {
+      "number": 13,
+      "question": "What is the output of the following code?\n// RopeSwing.java\nimport rope.*;\nimport static rope.Rope.*;\npublic class RopeSwing {\n   private static Rope rope1 = new Rope();\n   private static Rope rope2 = new Rope();\n   {\n      System.out.println(rope1.length);\n   }\n270      Chapter 5  ■  Methods\n\n   public static void main(String[] args) {\n      rope1.length = 2;\n      rope2.length = 8;\n      System.out.println(rope1.length);\n   }\n}\n\n// Rope.java\npackage rope;\npublic class Rope {\n   public static int length = 0;\n}",
+      "choices": {
+        "A": "02",
+        "B": "08",
+        "C": "2",
+        "D": "8",
+        "E": "The code does not compile.",
+        "F": "An exception is thrown."
+      },
+      "answer": "D",
+      "explanation": "There are two details to notice in this code. First, note that RopeSwing has an instance\n     initializer and not a static initializer. Since RopeSwing is never constructed, the instance\n     initializer does not run. The other detail is that length is static. Changes from any object\n    update this common static variable. The code prints 8, making option D correct.",
+      "answer_pages": [
+        3
+      ],
+      "pages": [
+        5,
+        6
+      ]
+    },
+    {
+      "number": 14,
+      "question": "How many lines in the following code have compiler errors?\n1:  public class RopeSwing {\n2:     private static final String leftRope;\n3:     private static final String rightRope;\n4:     private static final String bench;\n5:     private static final String name = \"name\";\n6:     static {\n7:        leftRope = \"left\";\n8:        rightRope = \"right\";\n9:     }\n10:    static {\n11:       name = \"name\";\n12:       rightRope = \"right\";\n13:    }\n14:    public static void main(String[] args) {\n15:       bench = \"bench\";\n16:    }\n17: }",
+      "choices": {
+        "A": "0",
+        "B": "1\n                                                   Review Questions        271",
+        "C": "2",
+        "D": "3",
+        "E": "4",
+        "F": "5"
+      },
+      "answer": "E",
+      "explanation": "If a variable is static final, it must be set exactly once, and it must be in the dec-\n     laration line or in a static initialization block. Line 4 doesn’t compile because bench is\n    not set in either of these locations. Line 15 doesn’t compile because final variables are not\n    allowed to be set after that point. Line 11 doesn’t compile because name is set twice: once in\n     the declaration and again in the static block. Line 12 doesn’t compile because rightRope\n      is set twice as well. Both are in static initialization blocks. Since four lines do not compile,\n    option E is correct.",
+      "answer_pages": [
+        3
+      ],
+      "pages": [
+        6,
+        7
+      ]
+    },
+    {
+      "number": 15,
+      "question": "Which of the following can replace line 2 to make this code compile? (Choose all that apply.)\n1: import java.util.*;\n2: // INSERT CODE HERE\n3: public class Imports {\n4:    public void method(ArrayList<String> list) {\n5:       sort(list);\n6:    }\n7: }",
+      "choices": {
+        "A": "import static java.util.Collections;",
+        "B": "import static java.util.Collections.*;",
+        "C": "import static java.util.Collections.sort(ArrayList<String>);",
+        "D": "static import java.util.Collections;",
+        "E": "static import java.util.Collections.*;",
+        "F": "static import java.util.Collections.sort(ArrayList<String>);"
+      },
+      "answer": "B",
+      "explanation": "The two valid ways to do this are import static java.util.Collections.*;\n    and import static java.util.Collections.sort;. Option A is incorrect because\n    you can do a static import only on static members. Classes such as Collections require\n    a regular import. Option C is nonsense as method parameters have no business in an\n    import. Options D, E, and F try to trick you into reversing the syntax of import static.",
+      "answer_pages": [
+        3
+      ],
+      "pages": [
+        7
+      ]
+    },
+    {
+      "number": 16,
+      "question": "What is the result of the following statements?\n1:  public class Test {\n2:     public void print(byte x) {\n3:        System.out.print(\"byte-\");\n4:     }\n5:     public void print(int x) {\n6:        System.out.print(\"int-\");\n7:     }\n8:     public void print(float x) {\n9:        System.out.print(\"float-\");\n10:    }\n11:    public void print(Object x) {\n12:       System.out.print(\"Object-\");\n13:    }\n14:    public static void main(String[] args) {\n15:       Test t = new Test();\n16:       short s = 123;\n17:       t.print(s);\n18:       t.print(true);\n272      Chapter 5  ■  Methods\n\n19:       t.print(6.789);\n20:    }\n21: }",
+      "choices": {
+        "A": "byte-float-Object-",
+        "B": "int-float-Object-",
+        "C": "byte-Object-float-",
+        "D": "int-Object-float-",
+        "E": "int-Object-Object-",
+        "F": "byte-Object-Object-"
+      },
+      "answer": "E",
+      "explanation": "The argument on line 17 is a short. It can be promoted to an int, so print() on line\n    5 is invoked. The argument on line 18 is a boolean. It can be autoboxed to a Boolean,\n    so print() on line 11 is invoked. The argument on line 19 is a double. It can be auto-\n    boxed to a Double, so print() on line 11 is invoked. Therefore, the output is\n    int-Object-Object-,and the correct answer is option E.",
+      "answer_pages": [
+        3
+      ],
+      "pages": [
+        7,
+        8
+      ]
+    },
+    {
+      "number": 17,
+      "question": "What is the result of the following program?\n1:  public class Squares {\n2:     public static long square(int x) {\n3:        var y = x * (long) x;\n4:        x = -1;\n5:        return y;\n6:     }\n7:     public static void main(String[] args) {\n8:        var value = 9;\n9:        var result = square(value);\n10:       System.out.println(value);\n11:    } }",
+      "choices": {
+        "A": "-1",
+        "B": "9",
+        "C": "81",
+        "D": "Compiler error on line 9",
+        "E": "Compiler error on a different line"
+      },
+      "answer": "B",
+      "explanation": "Since Java is pass-by-value and the variable on line 8 never gets reassigned, it stays as 9.\n     In the method square, x starts as 9. The y value becomes 81, and then x gets set to –1. Line\n    9 does set result to 81. However, we are printing out value, and that is still 9, making\n    option B correct.",
+      "answer_pages": [
+        3
+      ],
+      "pages": [
+        8
+      ]
+    },
+    {
+      "number": 18,
+      "question": "Which of the following are output by the following code? (Choose all that apply.)\npublic class StringBuilders {\n   public static StringBuilder work(StringBuilder a,\n      StringBuilder b) {\n      a = new StringBuilder(\"a\");\n      b.append(\"b\");\n      return a;\n   }\n   public static void main(String[] args) {\n      var s1 = new StringBuilder(\"s1\");\n      var s2 = new StringBuilder(\"s2\");\n                                                   Review Questions        273\n\n      var s3 = work(s1, s2);\n      System.out.println(\"s1 = \" + s1);\n      System.out.println(\"s2 = \" + s2);\n      System.out.println(\"s3 = \" + s3);\n   }\n}",
+      "choices": {
+        "A": "s1 = a",
+        "B": "s1 = s1",
+        "C": "s2 = s2",
+        "D": "s2 = s2b",
+        "E": "s3 = a",
+        "F": "The code does not compile."
+      },
+      "answer": [
+        "B",
+        "D",
+        "E"
+      ],
+      "explanation": "Since Java is pass-by-value, assigning a new object to a does not change the caller.\n    Calling append() does affect the caller because both the method parameter and the caller\n    have a reference to the same object. Finally, returning a value does pass the reference to the\n     caller for assignment to s3. For these reasons, options B, D, and E are correct.",
+      "answer_pages": [
+        3
+      ],
+      "pages": [
+        8,
+        9
+      ]
+    },
+    {
+      "number": 19,
+      "question": "Which of the following will compile when independently inserted in the following code?\n    (Choose all that apply.)\n1:  public class Order3 {\n2:     final String value1 = \"red\";\n3:     static String value2 = \"blue\";\n4:     String value3 = \"yellow\";\n5:     {\n6:        // CODE SNIPPET 1\n7:     }\n8:     static {\n9:        // CODE SNIPPET 2\n10:    } }",
+      "choices": {
+        "A": "Insert at line 6: value1 = \"green\";",
+        "B": "Insert at line 6: value2 = \"purple\";",
+        "C": "Insert at line 6: value3 = \"orange\";",
+        "D": "Insert at line 9: value1 = \"magenta\";",
+        "E": "Insert at line 9: value2 = \"cyan\";",
+        "F": "Insert at line 9: value3 = \"turquoise\";"
+      },
+      "answer": [
+        "B",
+        "C",
+        "E"
+      ],
+      "explanation": "The variable value1 is a final instance variable. It can be set only once: in the\n     variable declaration, an instance initializer, or a constructor. Option A does not compile\n    because the final variable was already set in the declaration. The variable value2 is a\n   static variable. Both instance and static initializers are able to access static variables,\n    making options B and E correct. The variable value3 is an instance variable. Options D and\n    F do not compile because a static initializer does not have access to instance variables.",
+      "answer_pages": [
+        3
+      ],
+      "pages": [
+        9
+      ]
+    },
+    {
+      "number": 20,
+      "question": "Which of the following are true about the following code? (Choose all that apply.)\npublic class Run {\n   static void execute() {\n      System.out.print(\"1-\");\n   }\n   static void execute(int num) {\n      System.out.print(\"2-\");\n   }\n274      Chapter 5  ■  Methods\n\n   static void execute(Integer num) {\n      System.out.print(\"3-\");\n   }\n   static void execute(Object num) {\n      System.out.print(\"4-\");\n   }\n   static void execute(int... nums) {\n      System.out.print(\"5-\");\n   }\n   public static void main(String[] args) {\n      Run.execute(100);\n      Run.execute(100L);\n   }\n}",
+      "choices": {
+        "A": "The code prints out 2-4-.",
+        "B": "The code prints out 3-4-.",
+        "C": "The code prints out 4-2-.",
+        "D": "The code prints out 4-4-.",
+        "E": "The code prints 3-4-if you remove the method static void execute(int num).",
+        "F": "The code prints 4-4-if you remove the method static void execute(int num)."
+      },
+      "answer": [
+        "A",
+        "E"
+      ],
+      "explanation": "The 100 parameter is an int and so calls the matching int method, making option A\n     correct. When this method is removed, Java looks for the next most specific constructor. Java\n     prefers autoboxing to varargs, so it chooses the Integer constructor. The 100L parameter\n      is a long. Since it can’t be converted into a smaller type, it is autoboxed into a Long, and\n    then the method for Object is called, making option E correct.\n                                                 Chapter 6: Class Design        927",
+      "answer_pages": [
+        3,
+        4
+      ],
+      "pages": [
+        9,
+        10
+      ]
+    },
+    {
+      "number": 21,
+      "question": "Which method signatures are valid overloads of the following method signature? (Choose all\n     that apply.)\npublic void moo(int m, int... n)",
+      "choices": {
+        "A": "public void moo(int a, int... b)",
+        "B": "public int moo(char ch)",
+        "C": "public void moooo(int... z)",
+        "D": "private void moo(int... x)",
+        "E": "public void moooo(int y)",
+        "F": "public void moo(int... c, int d)",
+        "G": "public void moo(int... i, int j...)"
+      },
+      "answer": ["B", "D"],
+      "explanation": "Option A is incorrect because it has the same parameter list of types and therefore the same signature as the original method. Options B and D are valid method overloads because the types of parameters in the list change. When overloading methods, the return type and access modifiers do not need to be the same. Options C and E are incorrect because the method name is different. Options F and G do not compile. There can be at most one varargs parameter, and it must be the last element in the parameter list.",
+      "answer_pages": null,
+      "pages": [
+        10
+      ]
+    }
+  ],
+  "warnings": [
+    "Question number 1: found 1 question(s) and 2 answer entr(y/ies); left answers unmatched.",
+    "Question number 2: found 1 question(s) and 2 answer entr(y/ies); left answers unmatched.",
+    "Question number 3: found 1 question(s) and 2 answer entr(y/ies); left answers unmatched.",
+    "Question number 4: found 1 question(s) and 2 answer entr(y/ies); left answers unmatched.",
+    "Question number 5: found 1 question(s) and 2 answer entr(y/ies); left answers unmatched.",
+    "Question number 21: found 1 question(s) and 2 answer entr(y/ies); left answers unmatched."
+  ]
+}

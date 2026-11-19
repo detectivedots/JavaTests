@@ -1,0 +1,448 @@
+{
+  "source_pdf": "ch9q.pdf",
+  "answer_pdfs": [
+    "ch9a.pdf"
+  ],
+  "name":"Chapter 9: Collections and Generics",
+  "question_count": 20,
+  "questions": [
+    {
+      "number": 1,
+      "question": "Suppose you need to display a collection of products for sale, which may contain duplicates.\n     Additionally, you have a collection of sales that you need to track, sorted by the natural order\n    of the sale ID, and you need to retrieve the text of each. Which two of the following from the\n   java.util package best suit your needs for this scenario? (Choose two.)",
+      "choices": {
+        "A": "ArrayList",
+        "B": "HashMap",
+        "C": "HashSet",
+        "D": "LinkedList",
+        "E": "TreeMap",
+        "F": "TreeSet"
+      },
+      "answer": ["A", "E"],
+      "explanation": "For the first scenario, the answer needs to implement List because the scenario allows duplicates, narrowing it down to options A and D. Option A is a better answer than option D because LinkedList is both a List and a Queue, and you just need a regular List.\nFor the second scenario, the answer needs to implement Map because you are dealing with key/value pairs per the unique id field. This narrows it down to options B and E. Since the question talks about ordering, you need the TreeMap. Therefore, the answer is option E.",
+      "answer_pages": null,
+      "pages": [
+        1
+      ]
+    },
+    {
+      "number": 2,
+      "question": "Which of the following are true? (Choose all that apply.)\n    12: List<?> q = List.of(\"mouse\", \"parrot\");\n    13: var v = List.of(\"mouse\", \"parrot\");\n    14:\n    15: q.removeIf(String::isEmpty);\n    16: q.removeIf(s  -> s.length() == 4);\n    17: v.removeIf(String::isEmpty);\n    18: v.removeIf(s  -> s.length() == 4);",
+      "choices": {
+        "A": "This code compiles and runs without error.",
+        "B": "Exactly one of these lines contains a compiler error.",
+        "C": "Exactly two of these lines contain a compiler error.",
+        "D": "Exactly three of these lines contain a compiler error.",
+        "E": "Exactly four of these lines contain a compiler error.",
+        "F": "If any lines with compiler errors are removed, this code runs without throwing an\n         exception.",
+        "G": "If any lines with compiler errors are removed, this code throws an exception."
+      },
+      "answer": ["C", "G"],
+      "explanation": "Line 12 creates a List<?>, which means it is treated as if all the elements are of type Object rather than String. Lines 15 and 16 do not compile since they call the String methods isEmpty() and length(), which are not defined on Object. Line 13 creates a List<String> because var uses the type that it deduces from the context. Lines 17 and 18 do compile. However, List.of() creates an immutable list, so both of those lines would throw an UnsupportedOperationException if run. Therefore, options C and G are correct",
+      "answer_pages": null,
+      "pages": [
+        1
+      ]
+    },
+    {
+      "number": 3,
+      "question": "What is the result of the following statements?\n    3:  var greetings = new ArrayDeque<String>();\n    4:  greetings.offerLast(\"hello\");\n    5:  greetings.offerLast(\"hi\");\n    6:  greetings.offerFirst(\"ola\");\n    7:  greetings.pop();\n    8:  greetings.peek();\n522      Chapter 9  ■  Collections and Generics\n\n    9:  while (greetings.peek() != null)\n    10:    System.out.print(greetings.pop());",
+      "choices": {
+        "A": "hello",
+        "B": "hellohi",
+        "C": "hellohiola",
+        "D": "hiola",
+        "E": "The code does not compile.",
+        "F": "An exception is thrown."
+      },
+      "answer": "B",
+      "explanation": "This is a double-ended queue. On lines 4 and 5, we add to the back, giving us [hello, hi]. On line 6, we add to the front and have [ola, hello, hi]. On line 7, we remove the first element, which is \"ola\". On line 8, we look at the new first element (\"hello\") but don’t remove it. On lines 9 and 10, we remove each element in turn until no elements are left, printing hello and hi together which makes option B the answer.",
+      "answer_pages": null,
+      "pages": [
+        1,
+        2
+      ]
+    },
+    {
+      "number": 4,
+      "question": "Which of these statements compile? (Choose all that apply.)",
+      "choices": {
+        "A": "HashSet<Number> hs = new HashSet<Integer>();",
+        "B": "HashSet<? super ClassCastException> set = new\n       HashSet<Exception>();",
+        "C": "List<> list = new ArrayList<String>();",
+        "D": "List<Object> values = new HashSet<Object>();",
+        "E": "List<Object> objects = new ArrayList<? extends Object>();",
+        "F": "Map<String, ? extends Number> hm = new HashMap<String,\n       Integer>();"
+      },
+      "answer": ["B", "F"],
+      "explanation": "Option A does not compile because the generic types are not compatible. We could say HashSet<? extends Number> hs2 = new HashSet<Integer>();. Option B uses a lower bound, so it allows superclass generic types. Option C does not compile because the diamond operator is allowed only on the right side. Option D does not compile because a Set is not a List. Option E does not compile because upper bounds are not allowed when instantiating the type. Finally, option F does compile because the upper bound is on the correct side of the =.",
+      "answer_pages": null,
+      "pages": [
+        2
+      ]
+    },
+    {
+      "number": 5,
+      "question": "What is the result of the following code?\n    1: public record Hello<T>(T t) {\n    2:    public Hello(T t) { this.t = t; }\n    3:    private <T> void println(T message) {\n    4:       System.out.print(t + \"-\" + message);\n    5:    }\n    6:    public static void main(String[] args) {\n    7:       new Hello<String>(\"hi\").println(1);\n    8:       new Hello(\"hola\").println(true);\n    9:    } }",
+      "choices": {
+        "A": "hi followed by a runtime exception",
+        "B": "hi-1hola-true",
+        "C": "The first compiler error is on line 1.",
+        "D": "The first compiler error is on line 3.",
+        "E": "The first compiler error is on line 8.",
+        "F": "The first compiler error is on another line.\n                                                   Review Questions        523"
+      },
+      "answer": "B",
+      "explanation": "The record compiles and runs without issue. Line 8 gives a compiler warning for not using generics but not a compiler error. Line 7 creates the Hello class with the generic type String. It also passes an int to the println() method, which gets autoboxed into an Integer. While the println() method takes a generic parameter of type T, it is not the same <T> defined for the class on line 1. Instead, it is a different T defined as part of the method declaration on line 3. Therefore, the String argument on line 7 applies only to the class. The method can take any object as a parameter, including autoboxed primitives. Line 8 creates the Hello class with the generic type Object since no type is specified for that instance. It passes a boolean to println(), which gets autoboxed into a Boolean. The result is that hi-1hola-true is printed, making option B correct.",
+      "answer_pages": null,
+      "pages": [
+        2,
+        3
+      ]
+    },
+    {
+      "number": 6,
+      "question": "Which of the following can fill in the blank to print [7, 5, 3]? (Choose all that apply.)\n    8:  public record Platypus(String name, int beakLength) {\n    9:     @Override public String toString() {return \"\" + beakLength;}\n    10:\n    11:    public static void main(String[] args) {\n    12:       Platypus p1 = new Platypus(\"Paula\", 3);\n    13:       Platypus p2 = new Platypus(\"Peter\", 5);\n    14:       Platypus p3 = new Platypus(\"Peter\", 7);\n    15:\n    16:       List<Platypus> list = Arrays.asList(p1, p2, p3);\n    17:\n    18:       Collections.sort(list, Comparator.comparing      );\n    19:\n    20:       System.out.println(list);\n    21:    }\n    22: }\n    A.\n    (Platypus::beakLength)\n    B.\n    (Platypus::beakLength).reversed()\n    C.\n    (Platypus::name)\n       .thenComparing(Platypus::beakLength)\n    D.\n    (Platypus::name)\n       .thenComparing(\n       Comparator.comparing(Platypus::beakLength)\n       .reversed())\n    E.\n    (Platypus::name)\n       .thenComparingNumber(Platypus::beakLength)\n       .reversed()\n      F.\n    (Platypus::name)\n       .thenComparingInt(Platypus::beakLength)\n       .reversed()",
+      "choices": {
+        "G": "None of the above\n524      Chapter 9  ■  Collections and Generics"
+      },
+      "answer": [
+        "B",
+        "F"
+      ],
+      "explanation": "We’re looking for a Comparator definition that sorts in descending order by\n    beakLength. Option A is incorrect because it sorts in ascending order by beakLength.\n     Similarly, option C is incorrect because it sorts by beakLength in ascending order within\n    those matches that have the same name. Option E is incorrect because there is no\n   thenComparingNumber() method.\n    Option B is a correct answer, as it sorts by beakLength in descending order. Options D\n    and F are trickier. First, notice that we can call either thenComparing() or\n   thenComparingInt() because the former will simply autobox the int into an\n    Integer. Then observe what reversed() applies to. Option D is incorrect because it sorts\n    by name in ascending order and only reverses the beak length of those with the same name.\n    Option F creates a comparator that sorts by name in ascending order and then by beak size\n     in ascending order. Finally, it reverses the result. This is just what we want, so option F is\n     correct.",
+      "answer_pages": [
+        2
+      ],
+      "pages": [
+        3,
+        4
+      ]
+    },
+    {
+      "number": 7,
+      "question": "Which of the following method signatures are valid overrides of the hairy() method in the\n   Alpaca class? (Choose all that apply.)\n    import java.util.*;\n\n    public class Alpaca {\n       public List<String> hairy(List<String> list) { return null; }\n    }",
+      "choices": {
+        "A": "public List<String> hairy(List<CharSequence> list) { return null; }",
+        "B": "public List<String> hairy(ArrayList<String> list) { return null; }",
+        "C": "public List<String> hairy(List<Integer> list) { return null; }",
+        "D": "public List<CharSequence> hairy(List<String> list) { return null; }",
+        "E": "public Object hairy(List<String> list) { return null; }",
+        "F": "public ArrayList<String> hairy(List<String> list) { return null; }"
+      },
+      "answer": [
+        "B",
+        "F"
+      ],
+      "explanation": "A valid override of a method with generic arguments must have a return type that is\n     covariant, with matching generic type parameters. Options D and E are incorrect because\n     the return type is too broad. Additionally, the generic arguments must have the same signa-\n     ture with the same generic types. This eliminates options A and C. The remaining options are\n     correct, making the answer options B and F.",
+      "answer_pages": [
+        2
+      ],
+      "pages": [
+        4
+      ]
+    },
+    {
+      "number": 8,
+      "question": "What is the result of the following program?\n    3:  public class MyComparator implements Comparator<String> {\n    4:     public int compare(String a, String b) {\n    5:        return b.toLowerCase().compareTo(a.toLowerCase());\n    6:     }\n    7:     public static void main(String[] args) {\n    8:        String[] values = { \"123\", \"Abb\", \"aab\" };\n    9:        Arrays.sort(values, new MyComparator());\n    10:       for (var s: values)\n    11:          System.out.print(s + \" \");\n    12:    }\n    13: }",
+      "choices": {
+        "A": "Abb aab 123",
+        "B": "aab Abb 123",
+        "C": "123 Abb aab",
+        "D": "123 aab Abb",
+        "E": "The code does not compile.",
+        "F": "A runtime exception is thrown."
+      },
+      "answer": "A",
+      "explanation": "The array is sorted using MyComparator, which sorts the elements in reverse alpha-\n     betical order in a case-insensitive fashion. Normally, numbers sort before letters. This code\n     reverses that by calling the compareTo() method on b instead of a. Therefore, option A\n      is correct.",
+      "answer_pages": [
+        2
+      ],
+      "pages": [
+        4
+      ]
+    },
+    {
+      "number": 9,
+      "question": "Which of these statements can fill in the blank so that the Helper class compiles successfully?\n    (Choose all that apply.)\n    2:  public class Helper {\n    3:     public static <U extends Exception>\n    4:        void printException(U u) {\n    5:\n                                                   Review Questions        525\n\n    6:        System.out.println(u.getMessage());\n    7:     }\n    8:     public static void main(String[] args) {\n    9:        Helper.                                    ;\n    10:    } }",
+      "choices": {
+        "A": "printException(new FileNotFoundException(\"A\"))",
+        "B": "printException(new Exception(\"B\"))",
+        "C": "<Throwable>printException(new Exception(\"C\"))",
+        "D": "<NullPointerException>printException(new NullPointerException\n       (\"D\"))",
+        "E": "printException(new Throwable(\"E\"))"
+      },
+      "answer": [
+        "A",
+        "B",
+        "D"
+      ],
+      "explanation": "The generic type must be Exception or a subclass of Exception since this is an\n    upper bound, making options A and B correct. Options C and E are wrong because\n   Throwable is a superclass of Exception. Additionally, option D is correct despite the odd\n    syntax by explicitly listing the type. You should still be able to recognize it as acceptable.",
+      "answer_pages": [
+        2
+      ],
+      "pages": [
+        4,
+        5
+      ]
+    },
+    {
+      "number": 10,
+      "question": "Which of the following will compile when filling in the blank? (Choose all that apply.)\n    var list = List.of(1, 2, 3);\n    var set = Set.of(1, 2, 3);\n    var map = Map.of(1, 2, 3, 4);\n\n          .forEach(System.out::println);",
+      "choices": {
+        "A": "list",
+        "B": "set",
+        "C": "map",
+        "D": "map.keys()",
+        "E": "map.keySet()",
+        "F": "map.values()",
+        "G": "map.valueSet()"
+      },
+      "answer": [
+        "A",
+        "B",
+        "E",
+        "F"
+      ],
+      "explanation": "The forEach() method works with a List or a Set. Therefore, options A and\n   B are correct. Additionally, options E and F return a Set and can be used as well. Options\n   D and G refer to methods that do not exist. Option C is tricky because a Map does have a\n   forEach() method. However, it uses two lambda parameters rather than one. Since there is\n    no matching System.out.println method, it does not compile.\n                                       Chapter 9: Collections and Generics        941",
+      "answer_pages": [
+        2,
+        3
+      ],
+      "pages": [
+        5
+      ]
+    },
+    {
+      "number": 11,
+      "question": "Which of these statements can fill in the blank so that the Wildcard class compiles success-\n     fully? (Choose all that apply.)\n    3:  public class Wildcard {\n    4:     public void showSize(List<?> list) {\n    5:        System.out.println(list.size());\n    6:     }\n    7:     public static void main(String[] args) {\n    8:        Wildcard card = new Wildcard();\n    9:                                           ;\n    10:       card.showSize(list);\n    11:    } }\n526      Chapter 9  ■  Collections and Generics",
+      "choices": {
+        "A": "List<?> list = new HashSet <String>()",
+        "B": "ArrayList<? super Date> list = new ArrayList<Date>()",
+        "C": "List<?> list = new ArrayList<?>()",
+        "D": "List<Exception> list = new LinkedList<java.io.IOException>()",
+        "E": "ArrayList <? extends Number> list = new ArrayList <Integer>()",
+        "F": "None of the above"
+      },
+      "answer": [
+        "B",
+        "E"
+      ],
+      "explanation": "The showSize() method can take any type of List since it uses an unbounded wild-\n     card. Option A is incorrect because it is a Set and not a List. Option C is incorrect because\n     the wildcard is not allowed to be on the right side of an assignment. Option D is incorrect\n    because the generic types are not compatible.\n    Option B is correct because a lower-bounded wildcard allows that same type to be the\n     generic. Option E is correct because Integer is a subclass of Number.",
+      "answer_pages": [
+        3
+      ],
+      "pages": [
+        5,
+        6
+      ]
+    },
+    {
+      "number": 12,
+      "question": "What is the result of the following program?\n    3:  public record Sorted(int num, String text)\n    4:     implements Comparable<Sorted>, Comparator<Sorted> {\n    5:\n    6:     public String toString() { return \"\" + num; }\n    7:     public int compareTo(Sorted s) {\n    8:        return text.compareTo(s.text);\n    9:     }\n    10:    public int compare(Sorted s1, Sorted s2) {\n    11:       return s1.num -s2.num;\n    12:    }\n    13:    public static void main(String[] args) {\n    14:       var s1 = new Sorted(88, \"a\");\n    15:       var s2 = new Sorted(55, \"b\");\n    16:       var t1 = new TreeSet<Sorted>();\n    17:       t1.add(s1); t1.add(s2);\n    18:       var t2 = new TreeSet<Sorted>(s1);\n    19:       t2.add(s1); t2.add(s2);\n    20:       System.out.println(t1 + \" \" + t2);\n    21:    } }",
+      "choices": {
+        "A": "[55, 88] [55, 88]",
+        "B": "[55, 88] [88, 55]",
+        "C": "[88, 55] [55, 88]",
+        "D": "[88, 55] [88, 55]",
+        "E": "The code does not compile.",
+        "F": "A runtime exception is thrown."
+      },
+      "answer": "C",
+      "explanation": "This question is difficult because it defines both Comparable and Comparator on\n     the same object. The t1 object doesn’t specify a Comparator, so it uses the Comparable\n     object’s compareTo() method. This sorts by the text instance variable. The t2 object\n    does specify a Comparator when calling the constructor, so it uses the compare() method,\n    which sorts by the int. This gives us option C as the answer.",
+      "answer_pages": [
+        3
+      ],
+      "pages": [
+        6
+      ]
+    },
+    {
+      "number": 13,
+      "question": "What is the result of the following code? (Choose all that apply.)\n    Comparator<Integer> c1 = (o1, o2)  -> o2 - o1;\n    Comparator<Integer> c2 = Comparator.naturalOrder();\n    Comparator<Integer> c3 = Comparator.reverseOrder();\n                                                   Review Questions        527\n\n    var list = Arrays.asList(5, 4, 7, 2);\n    Collections.sort(list,         );\n    Collections.reverse(list);\n    Collections.reverse(list);\n    System.out.println(Collections.binarySearch(list, 2));",
+      "choices": {
+        "A": "One or more of the comparators can fill in the blank so that the code prints 0.",
+        "B": "One or more of the comparators can fill in the blank so that the code prints 1.",
+        "C": "One or more of the comparators can fill in the blank so that the code prints 2.",
+        "D": "The result is undefined regardless of which comparator is used.",
+        "E": "A runtime exception is thrown regardless of which comparator is used.",
+        "F": "The code does not compile."
+      },
+      "answer": "A",
+      "explanation": "When using binarySearch(), the List must be sorted in the same order that the\n   Comparator uses. Since the binarySearch() method does not specify a Comparator\n     explicitly, the default sort order is used. Only c2 uses that sort order and correctly identifies\n     that the value 2 is at index 0. Therefore, option A is correct. The other two comparators sort\n     in descending order. Therefore, the precondition for binarySearch() is not met, and the\n     result is undefined for those two. The two calls to reverse() are just there to distract you;\n    they cancel each other out.",
+      "answer_pages": [
+        3
+      ],
+      "pages": [
+        6,
+        7
+      ]
+    },
+    {
+      "number": 14,
+      "question": "Which of the following lines can be inserted to make the code compile? (Choose all\n     that apply.)\n    class W {}\n    class X extends W {}\n    class Y extends X {}\n    class Z<Y> {\n       // INSERT CODE HERE\n    }",
+      "choices": {
+        "A": "W w1 = new W();",
+        "B": "W w2 = new X();",
+        "C": "W w3 = new Y();",
+        "D": "Y y1 = new W();",
+        "E": "Y y2 = new X();",
+        "F": "Y y1 = new Y();"
+      },
+      "answer": [
+        "A",
+        "B"
+      ],
+      "explanation": "Y is both a class and a type parameter. This means that within the class Z, when we\n     refer to Y, it uses the type parameter. All of the choices that mention class Y are incorrect\n    because it no longer means the class Y. Only options A and B are correct.",
+      "answer_pages": [
+        3
+      ],
+      "pages": [
+        7
+      ]
+    },
+    {
+      "number": 15,
+      "question": "Which options are true of the following code? (Choose all that apply.)\n    3:               q = new LinkedList<>();\n    4: q.add(10);\n    5: q.add(12);\n    6: q.remove(1);\n    7: System.out.print(q);",
+      "choices": {
+        "A": "If we fill in the blank with List<Integer>, the output is [10].",
+        "B": "If we fill in the blank with Queue<Integer>, the output is [10].",
+        "C": "If we fill in the blank with var, the output is [10].",
+        "D": "One or more of the scenarios does not compile.",
+        "E": "One or more of the scenarios throws a runtime exception.\n528      Chapter 9  ■  Collections and Generics"
+      },
+      "answer": [
+        "A",
+        "C"
+      ],
+      "explanation": "A LinkedList implements both List and Queue. The List interface has a method\n    to remove by index. Since this method exists, Java does not autobox to call the other method,\n    making the output [10] and option A correct. Similarly, option C is correct because the\n    method to remove an element by index is available on a LinkedList<Object> (which is\n    what var represents here). By contrast, Queue has only the remove by object method, so\n    Java does autobox there. Since the number 1 is not in the list, Java does not remove anything\n     for the Queue, and the output is [10, 12].",
+      "answer_pages": [
+        3
+      ],
+      "pages": [
+        7,
+        8
+      ]
+    },
+    {
+      "number": 16,
+      "question": "What is the result of the following code?\n    4: Map m = new HashMap();\n    5: m.put(123, \"456\");\n    6: m.put(\"abc\", \"def\");\n    7: System.out.println(m.contains(\"123\"));",
+      "choices": {
+        "A": "false",
+        "B": "true",
+        "C": "Compiler error on line 4",
+        "D": "Compiler error on line 5",
+        "E": "Compiler error on line 7",
+        "F": "A runtime exception is thrown."
+      },
+      "answer": "E",
+      "explanation": "This question looks like it is about generics, but it’s not. It is trying to see whether you\n    noticed that Map does not have a contains() method. It has containsKey() and\n   containsValue() instead, making option E the answer. If containsKey() were\n     called, the answer would be false because 123 is an Integer key in the Map, rather\n    than a String.",
+      "answer_pages": [
+        3
+      ],
+      "pages": [
+        8
+      ]
+    },
+    {
+      "number": 17,
+      "question": "What is the result of the following code? (Choose all that apply.)\n    48: var map = Map.of(1,2, 3, 6);\n    49: var list = List.copyOf(map.entrySet());\n    50:\n    51: List<Integer> one = List.of(8, 16, 2);\n    52: var copy = List.copyOf(one);\n    53: var copyOfCopy = List.copyOf(copy);\n    54: var thirdCopy = new ArrayList<>(copyOfCopy);\n    55:\n    56: list.replaceAll(x  -> x * 2);\n    57: one.replaceAll(x  -> x * 2);\n    58: thirdCopy.replaceAll(x  -> x * 2);\n    59:\n    60: System.out.println(thirdCopy);",
+      "choices": {
+        "A": "One line fails to compile.",
+        "B": "Two lines fail to compile.",
+        "C": "Three lines fail to compile.",
+        "D": "The code compiles but throws an exception at runtime.",
+        "E": "If any lines with compiler errors are removed, the code throws an exception at runtime.",
+        "F": "If any lines with compiler errors are removed, the code prints [16, 32, 4].",
+        "G": "The code compiles and prints [16, 32, 4] without any changes."
+      },
+      "answer": [
+        "A",
+        "E"
+      ],
+      "explanation": "The key to this question is keeping track of the types. Line 48 is a\n   Map<Integer, Integer>. Line 49 builds a List out of a Set of Entry objects, giving\n    us List<Entry<Integer, Integer>>. This causes a compiler error on line 56 since we\n     can’t multiply an Entry object by two.\n    Lines 51–54 are all of type List<Integer>. The first three are immutable, and the one on\n     line 54 is mutable. This means line 57 throws an UnsupportedOperationException\n     since we attempt to modify the list. Line 58 would work if we could get to it. Since there is\n    one compiler error and one runtime error, options A and E are correct.\n942      Appendix  ■  Answers to the Review Questions",
+      "answer_pages": [
+        3,
+        4
+      ],
+      "pages": [
+        8
+      ]
+    },
+    {
+      "number": 18,
+      "question": "What code change is needed to make the method compile, assuming there is no\n     class named T?\n    public static T identity(T t) {\n       return t;\n    }\n                                                   Review Questions        529",
+      "choices": {
+        "A": "Add <T> after the public keyword.",
+        "B": "Add <T> after the static keyword.",
+        "C": "Add <T> after T.",
+        "D": "Add <?> after the public keyword.",
+        "E": "Add <?> after the static keyword.",
+        "F": "No change is required. The code already compiles."
+      },
+      "answer": "B",
+      "explanation": "When using generic types in a method, the generic specification goes before the return\n    type and option B is correct.",
+      "answer_pages": [
+        4
+      ],
+      "pages": [
+        8,
+        9
+      ]
+    },
+    {
+      "number": 19,
+      "question": "What is the result of the following?\n    var map = new HashMap<Integer, Integer>();\n    map.put(1, 10);\n    map.put(2, 20);\n    map.put(3, null);\n    map.merge(1, 3, (a,b)  -> a + b);\n    map.merge(3, 3, (a,b)  -> a + b);\n    System.out.println(map);",
+      "choices": {
+        "A": "{1=10, 2=20}",
+        "B": "{1=10, 2=20, 3=null}",
+        "C": "{1=10, 2=20, 3=3}",
+        "D": "{1=13, 2=20}",
+        "E": "{1=13, 2=20, 3=null}",
+        "F": "{1=13, 2=20, 3=3}",
+        "G": "The code does not compile.",
+        "H": "An exception is thrown."
+      },
+      "answer": "F",
+      "explanation": "The first call to merge() calls the mapping function and adds the numbers to get 13. It\n    then updates the map. The second call to merge() sees that the map currently has a null\n    value for that key. It does not call the mapping function but instead replaces it with the new\n    value of 3. Therefore, option F is correct.",
+      "answer_pages": [
+        4
+      ],
+      "pages": [
+        9
+      ]
+    },
+    {
+      "number": 20,
+      "question": "Which of the following statements are true? (Choose all that apply.)",
+      "choices": {
+        "A": "Comparable is in the java.util package.",
+        "B": "Comparator is in the java.util package.",
+        "C": "compare() is in the Comparable interface.",
+        "D": "compare() is in the Comparator interface.",
+        "E": "compare() takes one method parameter.",
+        "F": "compare() takes two method parameters.\nChapter     Streams\n\n                  OCP EXAM OBJECTIVES COVERED IN\n                       THIS CHAPTER:10\n                          ✓Working✓        with Streams and Lambda expressions\n\n                             ■Use■     Java object and primitive Streams, including lambda\n                                             expressions implementing functional interfaces, to supply,\n                                                                   filter, map, consume, and sort data\n\n                                   ■Perform■         decomposition, concatenation and reduction, and\n                                           grouping and partitioning on sequential and parallel streams\n                       By now, you should be comfortable with the lambda and\n                       method reference syntax. Both are used when implementing\n                             functional interfaces. If you need more practice, you may want\nto go back and review Chapter 8, “Lambdas and Functional Interfaces,” and Chapter 9,\n“Collections and Generics.” In this chapter, we add actual functional programming to that,\nfocusing on the Streams API.\n  Note that the Streams API in this chapter is used for functional programming. By con-\ntrast, there are also java.io streams, which we talk about in Chapter 14, “I/O.” Despite\nboth using the word stream, they are nothing alike.\n   In this chapter, we introduce Optional. Then we introduce the Stream pipeline and tie it\nall together. You might want to read this chapter twice before doing the review questions so\nthat you really get it. Functional programming tends to have a steep learning curve but can\nbe very exciting once you get the hang of it.\n\nReturning an Optional\n\nSuppose that you are taking an introductory Java class and receive scores of 90 and 100 on\nthe first two exams. Now, we ask you what your average is. An average is calculated by add-\ning the scores and dividing by the number of scores, so you have (90+100)/2. This gives\n190/2, so you answer with 95. Great!\n  Now suppose that you are taking your second class on Java, and it is the first day of class.\nWe ask you what your average is in this class that just started. You haven’t taken any exams\nyet, so you don’t have anything to average. It wouldn’t be accurate to say that your average\nis zero. That sounds bad and isn’t true. There simply isn’t any data, so you don’t have\nan average.\n  How do we express this “we don’t know” or “not applicable” answer in Java? We use the\nOptional type. An Optional is created using a factory. You can either request an empty\nOptional or pass a value for the Optional to wrap. Think of an Optional as a box that\nmight have something in it or might instead be empty. Figure 10.1 shows both options.\n\nF I G U R E 10.1   Optional\n\n                                                     95\n\n                  Optional.empty()                       Optional.of(95)"
+      },
+      "answer": [
+        "B",
+        "D",
+        "F"
+      ],
+      "explanation": "The java.lang.Comparable interface is implemented on the object to\n    compare. It specifies the compareTo() method, which takes one parameter. The\n   java.util.Comparator interface specifies the compare() method, which takes two\n    parameters. This gives us options B, D, and F as the answers.\n\nChapter 10: Streams",
+      "answer_pages": [
+        4
+      ],
+      "pages": [
+        9,
+        11,
+        12
+      ]
+    }
+  ],
+  "warnings": [
+    "Question number 1: found 1 question(s) and 2 answer entr(y/ies); left answers unmatched.",
+    "Question number 2: found 1 question(s) and 2 answer entr(y/ies); left answers unmatched.",
+    "Question number 3: found 1 question(s) and 2 answer entr(y/ies); left answers unmatched.",
+    "Question number 4: found 1 question(s) and 2 answer entr(y/ies); left answers unmatched.",
+    "Question number 5: found 1 question(s) and 2 answer entr(y/ies); left answers unmatched."
+  ]
+}

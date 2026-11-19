@@ -1,0 +1,670 @@
+{
+  "source_pdf": "book.pdf",
+  "answer_pdfs": [
+    "book.pdf"
+  ],
+  "name": "Assessment Test",
+  "question_count": 30,
+  "questions": [
+    {
+      "number": 1,
+      "question": "What is the result of executing the following code snippet?\n    41: final int score1 = 8, score2 = 3;\n    42: char myScore = 7;\n    43: var goal = switch (myScore) {\n    44:    default  -> {if(10>score1) yield \"unknown\";}\n    45:    case score1  -> \"great\";\n    46:    case 2, 4, 6  -> \"good\";\n    47:    case score2, 0  -> {\"bad\";}\n    48: };\n    49: System.out.println(goal);",
+      "choices": {
+        "A": "unknown",
+        "B": "great",
+        "C": "good",
+        "D": "bad",
+        "E": "unknowngreatgoodbad",
+        "F": "Exactly one line needs to be changed for the code to compile.",
+        "G": "Exactly two lines need to be changed for the code to compile.",
+        "H": "None of the above"
+      },
+      "answer": "G",
+      "explanation": "The question does not compile because line 44 and line 47 do not always return a value\n     in the case block, which is required when a switch expression is used in an assignment\n    operation. Line 44 is missing a yield statement when the if statement evaluates to false,\n    while line 47 is missing a yield statement entirely. Since two lines don’t compile, option G\n      is the answer. For more information, see Chapter 3.",
+      "answer_pages": [
+        15
+      ],
+      "pages": [
+        1
+      ]
+    },
+    {
+      "number": 2,
+      "question": "What is the output of the following code snippet?\n    int moon = 9, star = 2 + 2 * 3;\n    float sun = star>10 ? 1 : 3;\n    double jupiter = (sun + moon) -1.0f;\n    int mars = --moon <= 8 ? 2 : 3;\n    System.out.println(sun+\", \"+jupiter+\", \"+mars);",
+      "choices": {
+        "A": "1, 11, 2",
+        "B": "3.0, 11.0, 2",
+        "C": "1.0, 11.0, 3",
+        "D": "3.0, 13.0, 3",
+        "E": "3.0f, 12, 2",
+        "F": "The code does not compile because one of the assignments requires an explicit numeric\n          cast."
+      },
+      "answer": "B",
+      "explanation": "Initially, moon is assigned a value of 9, while star is assigned a value of 8. The multi-\n     plication operator (*) has a higher order of precedence than the addition operator (+), so it\n     gets evaluated first. Since star is not greater than 10, sun is assigned a value of 3, which is\n    promoted to 3.0f as part of the assignment. The value of jupiter is (3.0f + 9) - 1.0,\n    which is 11.0f. This value is implicitly promoted to double when it is assigned. In the last\n    assignment, moon is decremented from 9 to 8, with the value of the expression returned as 8.\n     Since 8 less than or equal to 8 is true, mars is set to a value of 2. The final output is 3.0,\n   11.0, 2, making option B the correct answer. Note that while Java outputs the decimal\n     for both float and double values, it does not output the f for float values. For more\n    information, see Chapter 2.",
+      "answer_pages": [
+        15
+      ],
+      "pages": [
+        1,
+        2
+      ]
+    },
+    {
+      "number": 3,
+      "question": "Which changes, when made independently, guarantee the following code snippet prints 100 at\n    runtime? (Choose all that apply.)\n    List<Integer> data = new ArrayList<>();\n    IntStream.range(0,100).parallel().forEach(s -> data.add(s));\n    System.out.println(data.size());",
+      "choices": {
+        "A": "Change data to an instance variable and mark it volatile.",
+        "B": "Remove parallel() in the stream operation.",
+        "C": "Change forEach() to forEachOrdered() in the stream operation.",
+        "D": "Change parallel() to serial() in the stream operation.",
+        "E": "Wrap the lambda body with a synchronized block.",
+        "F": "The code snippet will always print 100 as is."
+      },
+      "answer": [
+        "B",
+        "C",
+        "E"
+      ],
+      "explanation": "The code may print 100 without any changes, but since the data class is not thread-\n     safe, this behavior is not guaranteed. For this reason, option F is incorrect. Option A is also\n     incorrect, as volatile does not guarantee thread-safety. Options B and C are correct, as\n    they both cause the stream to apply the add() operation in a synchronized manner. Option\n   D is incorrect, as serial() is not a stream method. Option E is correct. Synchronization\n     will cause each thread to wait so that the List is modified one element at a time. For more\n    information, see Chapter 13.",
+      "answer_pages": [
+        15
+      ],
+      "pages": [
+        2
+      ]
+    },
+    {
+      "number": 4,
+      "question": "What is the output of this code?\n    20: Predicate<String> empty = String::isEmpty;\n    21: Predicate<String> notEmpty = empty.negate();\n    22:\n    23: var result = Stream.generate(()  -> \"\")\n    24:    .filter(notEmpty)\n    25:    .collect(Collectors.groupingBy(k -> k))\n    26:    .entrySet()\n    27:    .stream()\n    28:    .map(Entry::getValue)\n    29:    .flatMap(Collection::stream)\n    30:    .collect(Collectors.partitioningBy(notEmpty));\n    31: System.out.println(result);",
+      "choices": {
+        "A": "It outputs {}.",
+        "B": "It outputs {false=[], true=[]}.",
+        "C": "The code does not compile.",
+        "D": "The code does not terminate."
+      },
+      "answer": "D",
+      "explanation": "First, this mess of code does compile. However, the source is an infinite stream. The filter\n    operation will check each element in turn to see whether any are not empty. While nothing\n    passes the filter, the code does not terminate. Therefore, option D is correct. For more\n    information, see Chapter 10.",
+      "answer_pages": [
+        15
+      ],
+      "pages": [
+        2
+      ]
+    },
+    {
+      "number": 5,
+      "question": "What is the result of the following program?\n    1: public class MathFunctions {\n    2:    public static void addToInt(int x, int amountToAdd) {\n    3:       x = x + amountToAdd;\n    4:    }\n    5:    public static void main(String[] args) {\n    6:       var a = 15;\n    7:       var b = 10;\n    8:       MathFunctions.addToInt(a, b);\n    9:       System.out.println(a);   } }",
+      "choices": {
+        "A": "10",
+        "B": "15",
+        "C": "25",
+        "D": "Compiler error on line 3",
+        "E": "Compiler error on line 8",
+        "F": "None of the above"
+      },
+      "answer": "B",
+      "explanation": "The code compiles successfully, so options D and E are incorrect. The value of a cannot be\n    changed by the addToInt() method, no matter what the method does, because only a copy\n    of the variable is passed into the parameter x. Therefore, a does not change, and the output\n    on line 9 is 15 which is option B. For more information, see Chapter 5.",
+      "answer_pages": [
+        15
+      ],
+      "pages": [
+        2,
+        3
+      ]
+    },
+    {
+      "number": 6,
+      "question": "Suppose that we have the following property files and code. What values are printed on lines\n    8 and 9, respectively?\n    Penguin.properties\n    name=Billy\n    age=1\n\n    Penguin_de.properties\n    name=Chilly\n    age=4\n\n    Penguin_en.properties\n    name=Willy\n\n    5: Locale fr = new Locale(\"fr\");\n    6: Locale.setDefault(new Locale(\"en\", \"US\"));\n    7: var b = ResourceBundle.getBundle(\"Penguin\", fr);\n    8: System.out.println(b.getString(\"name\"));\n    9: System.out.println(b.getString(\"age\"));",
+      "choices": {
+        "A": "Billy and 1",
+        "B": "Billy and null",
+        "C": "Willy and 1",
+        "D": "Willy and null",
+        "E": "Chilly and null",
+        "F": "The code does not compile."
+      },
+      "answer": "C",
+      "explanation": "Java will use Penguin_en.properties as the matching resource bundle on line 7.\n     Since there is no match for French, the default locale is used. Line 8 finds a matching\n    key in the Penguin_en.properties file. Line 9 does not find a match in the\n   Penguin_en.properties file; therefore, it has to look higher up in the hierarchy to\n   Penguin.properties. This makes option C the answer. For more information, see\n    Chapter 11.",
+      "answer_pages": [
+        15
+      ],
+      "pages": [
+        3
+      ]
+    },
+    {
+      "number": 7,
+      "question": "What is guaranteed to be printed by the following code? (Choose all that apply.)\n    int[] array = {6,9,8};\n    System.out.println(\"B\" + Arrays.binarySearch(array,9));\n    System.out.println(\"C\" + Arrays.compare(array,\n      new int[] {6, 9, 8}));\n    System.out.println(\"M\" + Arrays.mismatch(array,\n      new int[] {6, 9, 8}));",
+      "choices": {
+        "A": "B1",
+        "B": "B2",
+        "C": "C-1",
+        "D": "C0",
+        "E": "M-1",
+        "F": "M0",
+        "G": "The code does not compile."
+      },
+      "answer": [
+        "D",
+        "E"
+      ],
+      "explanation": "The array is allowed to use an anonymous initializer because it is in the same line as\n     the declaration. The results of the binary search are undefined since the array is not sorted.\n     Since the question asks about guaranteed output, options A and B are incorrect.\n\n    Option D is correct because the compare() method returns 0 when the arrays are the same\n    length and have the same elements. Option E is correct because the mismatch() method\n     returns a -1 when the arrays are equivalent. For more information, see Chapter 4.",
+      "answer_pages": [
+        15,
+        16
+      ],
+      "pages": [
+        3,
+        4
+      ]
+    },
+    {
+      "number": 8,
+      "question": "Which functional interfaces complete the following code, presuming variable r exists?\n    (Choose all that apply.)\n    6:        x = r.negate();\n    7:        y = ()  -> System.out.println();\n    8:        z = (a, b)  -> a -b;",
+      "choices": {
+        "A": "BinaryPredicate<Integer, Integer>",
+        "B": "Comparable<Integer>",
+        "C": "Comparator<Integer>",
+        "D": "Consumer<Integer>",
+        "E": "Predicate<Integer>",
+        "F": "Runnable",
+        "G": "Runnable<Integer>"
+      },
+      "answer": [
+        "C",
+        "E",
+        "F"
+      ],
+      "explanation": "First, note that option A is incorrect because the interface should be BiPredicate\n    and not BinaryPredicate. Line 6 requires you to know that negate() is a convenience\n    method on Predicate. This makes option E correct. Line 7 takes zero parameters and\n     doesn’t return anything, making it a Runnable. Remember that Runnable doesn’t use\n     generics. This makes option F correct. Finally, line 8 takes two parameters and returns an\n    int. Option C is correct. Comparable is there to mislead you since it takes only one param-\n     eter in its single abstract method. For more information, see Chapter 8.",
+      "answer_pages": [
+        16
+      ],
+      "pages": [
+        4
+      ]
+    },
+    {
+      "number": 9,
+      "question": "Suppose you have a module named com.vet. Where could you place the following\n    module-info.java file to create a valid module?\n    public module com.vet {\n       exports com.vet;\n    }",
+      "choices": {
+        "A": "At the same level as the com folder",
+        "B": "At the same level as the vet folder",
+        "C": "Inside the vet folder",
+        "D": "None of the above"
+      },
+      "answer": "D",
+      "explanation": "If this were a valid module-info.java file, it would need to be placed at the root directory of the module, which is option A. However, a module is not allowed to use the public access modifier. Option D is correct because the provided file does not compile regardless of placement in the project. For more information, see Chapter 12.",
+      "answer_pages": null,
+      "pages": [
+        4
+      ]
+    },
+    {
+      "number": 10,
+      "question": "What is the output of the following program? (Choose all that apply.)\n    1:  interface HasTail { private int getTailLength(); }\n    2:  abstract class Puma implements HasTail {\n    3:     String getTailLength() { return \"4\"; }\n    4:  }\n    5:  public class Cougar implements HasTail {\n    6:     public static void main(String[] args) {\n    7:        var puma = new Puma() {};\n\n    8:        System.out.println(puma.getTailLength());\n    9:     }\n    10:    public int getTailLength(int length) { return 2; }\n    11: }",
+      "choices": {
+        "A": "2",
+        "B": "4",
+        "C": "The code will not compile because of line 1.",
+        "D": "The code will not compile because of line 3.",
+        "E": "The code will not compile because of line 5.",
+        "F": "The code will not compile because of line 7.",
+        "G": "The code will not compile because of line 10.",
+        "H": "The output cannot be determined from the code provided."
+      },
+      "answer": "C",
+      "explanation": "The getTailLength() method in the interface is private; therefore, it must include a body. For this reason, line 1 is the only line that does not compile and option C is correct. Line 3 uses a different return type for the method, but since it is private in the interface, it is not considered an override. Note that line 7 defines an anonymous class using the abstract Puma parent class. For more information, see Chapter 7.",
+      "answer_pages": null,
+      "pages": [
+        4,
+        5
+      ]
+    },
+    {
+      "number": 11,
+      "question": "Which lines in Tadpole.java give a compiler error? (Choose all that apply.)\n    // Frog.java\n    1:  package animal;\n    2:  public class Frog {\n    3:     protected void ribbit() { }\n    4:     void jump() { }\n    5:  }\n\n    // Tadpole.java\n    1:  package other;\n    2:  import animal.*;\n    3:  public class Tadpole extends Frog {\n    4:     public static void main(String[] args) {\n    5:        Tadpole t = new Tadpole();\n    6:        t.ribbit();\n    7:        t.jump();\n    8:        Frog f = new Tadpole();\n    9:        f.ribbit();\n    10:       f.jump();\n    11:    } }",
+      "choices": {
+        "A": "Line 5",
+        "B": "Line 6",
+        "C": "Line 7",
+        "D": "Line 8",
+        "E": "Line 9",
+        "F": "Line 10",
+        "G": "All of the lines compile."
+      },
+      "answer": [
+        "C",
+        "E",
+        "F"
+      ],
+      "explanation": "The jump() method has package access, which means it can be accessed only\n    from the same package. Tadpole is not in the same package as Frog, causing lines 7\n    and 10 to trigger compiler errors and giving us options C and F. The ribbit() method has\n   protected access, which means it can only be accessed from a subclass reference or in the\n    same package. Line 6 is fine because Tadpole is a subclass. Line 9 does not compile and\n    our final answer is option E because the variable reference is to a Frog, which doesn’t grant\n     access to the protected method. For more information, see Chapter 5.",
+      "answer_pages": [
+        16
+      ],
+      "pages": [
+        5,
+        6
+      ]
+    },
+    {
+      "number": 12,
+      "question": "Which of the following can fill in the blanks in order to make this code compile?\n              a =           .getConnection(\n       url, userName, password);\n              b = a.prepareStatement(sql);\n              c = b.executeQuery();\n    if (c.next()) System.out.println(c.getString(1));",
+      "choices": {
+        "A": "Connection, Driver, PreparedStatement, ResultSet",
+        "B": "Connection, DriverManager, PreparedStatement, ResultSet",
+        "C": "Connection, DataSource, PreparedStatement, ResultSet",
+        "D": "Driver, Connection, PreparedStatement, ResultSet",
+        "E": "DriverManager, Connection, PreparedStatement, ResultSet",
+        "F": "DataSource, Connection, PreparedStatement, ResultSet"
+      },
+      "answer": "B",
+      "explanation": "DataSource isn’t on the exam, so any question containing one is wrong. The key vari-\n     ables used in running a query are Connection, PreparedStatement, and ResultSet.\n   A Connection is obtained through a DriverManager, making option B correct. For more\n    information, see Chapter 15.",
+      "answer_pages": [
+        16
+      ],
+      "pages": [
+        6
+      ]
+    },
+    {
+      "number": 13,
+      "question": "Which of the following statements can fill in the blank to make the code compile success-\n     fully? (Choose all that apply.)\n    Set<? extends RuntimeException> mySet = new            ();",
+      "choices": {
+        "A": "HashSet<? extends RuntimeException>",
+        "B": "HashSet<Exception>",
+        "C": "TreeSet<RuntimeException>",
+        "D": "TreeSet<NullPointerException>",
+        "E": "None of the above"
+      },
+      "answer": [
+        "C",
+        "D"
+      ],
+      "explanation": "The mySet declaration defines an upper bound of type RuntimeException.\n    This means that classes may specify RuntimeException or any subclass of\n   RuntimeException as the type parameter. Option B is incorrect because Exception is a\n     superclass, not a subclass, of RuntimeException. Option A is incorrect because the wild-\n    card cannot occur on the right side of the assignment. Options C and D compile and are the\n    answers. For more information, see Chapter 9.",
+      "answer_pages": [
+        16
+      ],
+      "pages": [
+        6
+      ]
+    },
+    {
+      "number": 14,
+      "question": "Assume that birds.dat exists, is accessible, and contains data for a Bird object. What is\n     the result of executing the following code? (Choose all that apply.)\n    1:  import java.io.*;\n    2:  public class Bird {\n    3:     private String name;\n    4:     private transient Integer age;\n    5:\n    6:     // Getters/setters omitted\n    7:\n    8:     public static void main(String[] args) {\n    9:        try(var is = new ObjectInputStream(\n    10:             new BufferedInputStream(\n    11:             new FileInputStream(\"birds.dat\")))) {\n    12:          Bird b = is.readObject();\n    13:          System.out.println(b.age);\n    14:       } } }",
+      "choices": {
+        "A": "It compiles and prints 0 at runtime.",
+        "B": "It compiles and prints null at runtime.",
+        "C": "It compiles and prints a number at runtime.",
+        "D": "The code will not compile because of lines 9–11.",
+        "E": "The code will not compile because of line 12.",
+        "F": "It compiles but throws an exception at runtime."
+      },
+      "answer": [
+        "D",
+        "E"
+      ],
+      "explanation": "Line 10 includes an unhandled checked IOException, while line 11 includes an\n    unhandled checked FileNotFoundException, making option D correct. Line 12 does not\n    compile because is.readObject() must be cast to a Bird object to be assigned to b. It\n     also does not compile because it includes two unhandled checked exceptions, IOException\n    and ClassNotFoundException, making option E correct. If a cast operation were added\n    on line 12 and the main() method were updated on line 8 to declare the various checked",
+      "answer_pages": [
+        16
+      ],
+      "pages": [
+        6,
+        7
+      ]
+    },
+    {
+      "number": 15,
+      "question": "Which of the following are valid instance members of a class? (Choose all that apply.)",
+      "choices": {
+        "A": "var var = 3;",
+        "B": "Var case = new Var();",
+        "C": "void var() {}",
+        "D": "int Var() { var _ = 7; return _;}",
+        "E": "String new = \"var\";",
+        "F": "var var() { return null; }"
+      },
+      "answer": "C",
+      "explanation": "Option A is incorrect because var is only allowed as a type for local variables, not in-\n     stance members. Options B and E are incorrect because new and case are reserved words\n    and cannot be used as identifiers. Option C is correct, as var can be used as a method name.\n    Option D is incorrect because a single underscore (_) cannot be used as an identifier. Finally,\n    option F is incorrect because var cannot be specified as the return type of a method. For\n    more information, see Chapter 1.",
+      "answer_pages": [
+        17
+      ],
+      "pages": [
+        7
+      ]
+    },
+    {
+      "number": 16,
+      "question": "Which is true if the table is empty before this code is run? (Choose all that apply.)\n    var sql = \"INSERT INTO people VALUES(?, ?, ?)\";\n    conn.setAutoCommit(false);\n\n    try (var ps = conn.prepareStatement(sql,\n       ResultSet.TYPE_SCROLL_SENSITIVE,\n       ResultSet.CONCUR_UPDATABLE)) {\n\n       ps.setInt(1, 1);\n       ps.setString(2, \"Joslyn\");\n       ps.setString(3, \"NY\");\n       ps.executeUpdate();\n\n       Savepoint sp = conn.setSavepoint();\n\n       ps.setInt(1, 2);\n       ps.setString(2, \"Kara\");\n       ps.executeUpdate();\n\n       conn.                           ;\n    }",
+      "choices": {
+        "A": "If the blank line contains rollback(), there are no rows in the table.",
+        "B": "If the blank line contains rollback(), there is one row in the table.",
+        "C": "If the blank line contains rollback(sp), there are no rows in the table.",
+        "D": "If the blank line contains rollback(sp), there is one row in the table.",
+        "E": "The code does not compile.",
+        "F": "The code throws an exception because the second update does not set all the parameters."
+      },
+      "answer": [
+        "A",
+        "D"
+      ],
+      "explanation": "This code is correct, eliminating options E and F. JDBC will use the existing parameter\n     set if you don’t replace it. This means Kara’s row will be set to use NY as the third param-\n      eter. Rolling back to a savepoint throws out any changes made since. This leaves Joslyn and\n     eliminates Kara, making option D correct. Rolling back without a savepoint brings us back\n    to the beginning of the transaction, which is option A. For more information, see Chapter 15.",
+      "answer_pages": [
+        17
+      ],
+      "pages": [
+        7,
+        8
+      ]
+    },
+    {
+      "number": 17,
+      "question": "Which is true if the contents of path1 start with the text Howdy? (Choose two.)\n    System.out.println(Files.mismatch(path1,path2));",
+      "choices": {
+        "A": "If path2 doesn’t exist, the code prints -1.",
+        "B": "If path2 doesn’t exist, the code prints 0.",
+        "C": "If path2 doesn’t exist, the code throws an exception.",
+        "D": "If the contents of path2 start with Hello, the code prints -1.",
+        "E": "If the contents of path2 start with Hello, the code prints 0.",
+        "F": "If the contents of path2 start with Hello, the code prints 1."
+      },
+      "answer": [
+        "C",
+        "F"
+      ],
+      "explanation": "Option C is correct as mismatch() throws an exception if the files do not exist unless\n    they both refer to the same file. Additionally, option F is correct because the first index that\n     differs is returned, which is the second character. Since Java uses zero-based indexes, this is 1.\n    For more information, see Chapter 14.",
+      "answer_pages": [
+        17
+      ],
+      "pages": [
+        8
+      ]
+    },
+    {
+      "number": 18,
+      "question": "Which of the following types can be inserted into the blank to allow the program to compile\n     successfully? (Choose all that apply.)\n    1: import java.util.*;\n    2: final class Amphibian {}\n    3: abstract class Tadpole extends Amphibian {}\n    4: public class FindAllTadpoles {\n    5:    public static void main(String... args) {\n    6:       var tadpoles = new ArrayList<Tadpole>();\n    7:       for (var amphibian : tadpoles) {\n    8:                          tadpole = amphibian;\n    9: } } }",
+      "choices": {
+        "A": "List<Tadpole>",
+        "B": "Boolean",
+        "C": "Amphibian",
+        "D": "Tadpole",
+        "E": "Object",
+        "F": "None of the above"
+      },
+      "answer": "F",
+      "explanation": "The Amphibian class is marked final, which means line 3 triggers a compiler error and\n    option F is correct. For more information, see Chapter 6.",
+      "answer_pages": [
+        17
+      ],
+      "pages": [
+        8
+      ]
+    },
+    {
+      "number": 19,
+      "question": "What is the result of compiling and executing the following program?\n    1:  public class FeedingSchedule {\n    2:     public static void main(String[] args) {\n    3:        var x = 5;\n    4:        var j = 0;\n\n    5:        OUTER: for (var i = 0; i < 3;)\n    6:           INNER: do {\n    7:              i++;\n    8:              x++;\n    9:              if (x> 10) break INNER;\n    10:             x += 4;\n    11:             j++;\n    12:          } while (j <= 2);\n    13:       System.out.println(x);\n    14: } }",
+      "choices": {
+        "A": "10",
+        "B": "11",
+        "C": "12",
+        "D": "17",
+        "E": "The code will not compile because of line 5.",
+        "F": "The code will not compile because of line 6."
+      },
+      "answer": "C",
+      "explanation": "The code compiles and runs without issue; therefore, options E and F are incorrect. This\n    type of problem is best examined one loop iteration at a time:\n      ■■  On the first iteration of the outer loop, i is 0, so the loop continues.\n      ■■  On the first iteration of the inner loop, i is updated to 1 and x to 6. The if statement\n        branch is not executed, and x is increased to 10 and j to 1.\n      ■■  On the second iteration of the inner loop (since j = 1 and 1 <= 2), i is updated to 2\n       and x to 11. At this point, the if branch will evaluate to true for the remainder of\n         the program run, which causes the flow to break out of the inner loop each time it\n            is reached.\n      ■■  On the second iteration of the outer loop (since i = 2), i is updated to 3 and x to 12. As\n         before, the inner loop is broken since x is still greater than 10.\n      ■■  On the third iteration of the outer loop, the outer loop is broken, as i is already not less\n        than 3. The most recent value of x, 12, is output, so the answer is option C.\n    For more information, see Chapter 3.",
+      "answer_pages": [
+        17
+      ],
+      "pages": [
+        8,
+        9
+      ]
+    },
+    {
+      "number": 20,
+      "question": "When printed, which String gives the same value as this text block?\n    var pooh = \"\"\"\n       \"Oh, bother.\" -Pooh\n       \"\"\".indent(1);\n    System.out.print(pooh);",
+      "choices": {
+        "A": "\"\\n\\\"Oh, bother.\\\" -Pooh\\n\"",
+        "B": "\"\\n \\\"Oh, bother.\\\" -Pooh\\n\"",
+        "C": "\" \\\"Oh, bother.\\\" -Pooh\\n\"",
+        "D": "\"\\n\\\"Oh, bother.\\\" -Pooh\"",
+        "E": "\"\\n \\\"Oh, bother.\\\" -Pooh\"",
+        "F": "\" \\\"Oh, bother.\\\" -Pooh\"",
+        "G": "None of the above"
+      },
+      "answer": "C",
+      "explanation": "First, note that the text block has the closing \"\"\" on a separate line, which means there\n      is a new line at the end and rules out options D, E, and F. Additionally, text blocks don’t\n     start with a new line, ruling out options A and B. Therefore, option C is correct. For more\n    information, see Chapter 1.",
+      "answer_pages": [
+        17
+      ],
+      "pages": [
+        9
+      ]
+    },
+    {
+      "number": 21,
+      "question": "A(n)                  module always contains a module-info.java file, while a(n)\n                     module always exports all its packages to other modules.",
+      "choices": {
+        "A": "automatic, named",
+        "B": "automatic, unnamed",
+        "C": "named, automatic",
+        "D": "named, unnamed",
+        "E": "unnamed, automatic",
+        "F": "unnamed, named",
+        "G": "None of the above"
+      },
+      "answer": "C",
+      "explanation": "Only named modules are required to have a module-info.java file, ruling out options\n    A, B, E, and F. Unnamed modules are not readable by any other types of modules, ruling\n    out option D. Automatic modules always export all packages to other modules, making the\n    answer option C. For more information, see Chapter 12.",
+      "answer_pages": [
+        18
+      ],
+      "pages": [
+        9,
+        10
+      ]
+    },
+    {
+      "number": 22,
+      "question": "What is the result of the following code?\n    22: var treeMap = new TreeMap<Character, Integer>();\n    23: treeMap.put('k', 1);\n    24: treeMap.put('k', 2);\n    25: treeMap.put('m', 3);\n    26: treeMap.put('M', 4);\n    27: treeMap.replaceAll((k, v)  -> v + v);\n    28: treeMap.keySet()\n    29:    .forEach(k  -> System.out.print(treeMap.get(k)));",
+      "choices": {
+        "A": "268",
+        "B": "468",
+        "C": "2468",
+        "D": "826",
+        "E": "846",
+        "F": "8246",
+        "G": "None of the above"
+      },
+      "answer": "E",
+      "explanation": "When the same key is put into a Map, it overrides the original value. This means that line\n    23 could be omitted and the code would be the same, and there are only three key/value\n     pairs in the map. TreeMap sorts its keys, making the order M followed by k followed by m.\n   Remember that natural sort ordering has uppercase before lowercase. The replaceAll()\n    method runs against each element in the map, doubling the value. Finally, we iterate through\n    each key, printing 846 and making option E correct. For more information, see Chapter 9.",
+      "answer_pages": [
+        18
+      ],
+      "pages": [
+        10
+      ]
+    },
+    {
+      "number": 23,
+      "question": "Which of the following lines can fill in the blank to print true? (Choose all that apply.)\n    10: public static void main(String[] args) {\n    11:    System.out.println(test(                                       ));\n    12: }\n    13: private static boolean test(Function<Integer, Boolean> b) {\n    14:    return b.apply(5);\n    15: }",
+      "choices": {
+        "A": "i::equals(5)",
+        "B": "i  -> {i == 5;}",
+        "C": "(i)  -> i == 5",
+        "D": "(int i) -> i == 5",
+        "E": "(int i) -> {return i == 5;}",
+        "F": "(i)  -> {return i == 5;}"
+      },
+      "answer": [
+        "C",
+        "F"
+      ],
+      "explanation": "Option A looks like a method reference. However, it doesn’t call a valid method, nor\n    can method references take parameters. The Predicate interface takes a single param-\n     eter and returns a boolean. Lambda expressions with one parameter are allowed to omit\n     the parentheses around the parameter list, making option C correct. The return state-\n    ment is optional when a single statement is in the body, making option F correct. Option\n   B is incorrect because a return statement must be used if braces are included around the\n    body. Options D and E are incorrect because the type is Integer in the predicate and int\n     in the lambda. Autoboxing works for collections, not inferring predicates. If these two were\n    changed to Integer, they would be correct. For more information, see Chapter 8.",
+      "answer_pages": [
+        18
+      ],
+      "pages": [
+        10
+      ]
+    },
+    {
+      "number": 24,
+      "question": "How many times is the word true printed?\n    var s1 = \"Java\";\n    var s2 = \"Java\";\n    var s3 = s1.indent(1).strip();\n    var s4 = s3.intern();\n    var sb1 = new StringBuilder();\n    sb1.append(\"Ja\").append(\"va\");\n\n    System.out.println(s1 == s2);\n    System.out.println(s1.equals(s2));\n    System.out.println(s1 == s3);\n    System.out.println(s1 == s4);\n    System.out.println(sb1.toString() == s1);\n    System.out.println(sb1.toString().equals(s1));",
+      "choices": {
+        "A": "Once",
+        "B": "Twice",
+        "C": "Three times",
+        "D": "Four times",
+        "E": "Five times",
+        "F": "The code does not compile."
+      },
+      "answer": "D",
+      "explanation": "String literals are used from the string pool. This means that s1 and s2 refer to the\n    same object and are equal. Therefore, the first two print statements print true. While the\n   indent() and strip() methods create new String objects and the third statement prints\n    false, the intern() method reverts the String to the one from the string pool. There-\n     fore, the fourth print statement prints true. The fifth print statement prints false because\n   toString() uses a method to compute the value, and it is not from the string pool. The\n     final print statement again prints true because equals() looks at the values of String\n     objects. Since four are true, option D is the answer. For more information, see Chapter 4.",
+      "answer_pages": [
+        18
+      ],
+      "pages": [
+        10,
+        11
+      ]
+    },
+    {
+      "number": 25,
+      "question": "What is the output of the following program?\n    1:  class Deer {\n    2:     public Deer() {System.out.print(\"Deer\");}\n    3:     public Deer(int age) {System.out.print(\"DeerAge\");}\n    4:     protected boolean hasHorns() { return false; }\n    5:  }\n    6:  public class Reindeer extends Deer {\n    7:     public Reindeer(int age) {System.out.print(\"Reindeer\");}\n    8:     public boolean hasHorns() { return true; }\n    9:     public static void main(String[] args) {\n    10:       Deer deer = new Reindeer(5);\n    11:       System.out.println(\",\" + deer.hasHorns());\n    12: } }",
+      "choices": {
+        "A": "ReindeerDeer,false",
+        "B": "DeerAgeReindeer,true",
+        "C": "DeerReindeer,true",
+        "D": "DeerReindeer,false",
+        "E": "ReindeerDeer,true",
+        "F": "DeerAgeReindeer,false",
+        "G": "The code will not compile because of line 4.",
+        "H": "The code will not compile because of line 12."
+      },
+      "answer": "C",
+      "explanation": "The Reindeer object is instantiated using the constructor that takes an int value. Since\n     there is no explicit call to the parent constructor, the compiler inserts super() as the first\n     line of the constructor on line 7. The parent constructor is called, and Deer is printed on line\n     2. The flow returns to the constructor on line 7, with Reindeer being printed. Next, the\n   hasHorns() method is called. The reference type is Deer, and the underlying object type\n      is Reindeer. Since Reindeer correctly overrides the hasHorns() method, the version in\n   Reindeer is called, with line 11 printing ,true. Therefore, option C is correct. For more\n    information, see Chapter 6.",
+      "answer_pages": [
+        18
+      ],
+      "pages": [
+        11,
+        12
+      ]
+    },
+    {
+      "number": 26,
+      "question": "Which of the following are true? (Choose all that apply.)\n    private static void magic(Stream<Integer> s) {\n       Optional o = s\n          .filter(x  -> x < 5)\n          .limit(3)\n          .max((x, y)  -> x-y);\n       System.out.println(o.get());\n    }",
+      "choices": {
+        "A": "magic(Stream.empty()); runs infinitely.",
+        "B": "magic(Stream.empty()); throws an exception.",
+        "C": "magic(Stream.iterate(1, x -> x++)); runs infinitely.",
+        "D": "magic(Stream.iterate(1, x -> x++)); throws an exception.",
+        "E": "magic(Stream.of(5, 10)); runs infinitely.",
+        "F": "magic(Stream.of(5, 10)); throws an exception.",
+        "G": "The method does not compile."
+      },
+      "answer": [
+        "B",
+        "F"
+      ],
+      "explanation": "Calling get() on an empty Optional causes an exception to be thrown, making\n    option B correct. Option F is also correct because filter() makes the Optional empty\n    before it calls get(). Option C is incorrect because the infinite stream is made finite by the\n    intermediate limit() operation. Options A and E are incorrect because the source streams\n     are not infinite. Therefore, the call to max() sees only three elements and terminates. For\n    more information, see Chapter 10.",
+      "answer_pages": [
+        18
+      ],
+      "pages": [
+        12
+      ]
+    },
+    {
+      "number": 27,
+      "question": "Assuming the following declarations are top-level types declared in the same file, which suc-\n     cessfully compile? (Choose all that apply.)\n    record Music() {\n       final int score = 10;\n    }\n    record Song(String lyrics) {\n       Song {\n          this.lyrics = lyrics + \"Hello World\";\n       }\n    }\n    sealed class Dance {}\n    record March() {\n       @Override String toString() { return null; }\n    }\n    class Ballet extends Dance {}",
+      "choices": {
+        "A": "Music",
+        "B": "Song",
+        "C": "Dance",
+        "D": "March",
+        "E": "Ballet",
+        "F": "None of them compile."
+      },
+      "answer": "C",
+      "explanation": "Music does not compile because records cannot include instance variables not listed in\n     the declaration of the record, as it could break immutability. Song does not compile because\n    a compact constructor cannot set an instance variable. The record would compile if this\n    were removed from the compact constructor, as compact constructors can modify input\n    parameters. March does not compile because it is an invalid override; it reduces the visibility\n    of the toString() method from public to package access. Ballet does not compile\n    because the subclass of a sealed class must be marked final, sealed, or non-sealed.\n     Since the only one that compiles is Dance, option C is the answer. For more information, see\n    Chapter 7.",
+      "answer_pages": [
+        19
+      ],
+      "pages": [
+        12,
+        13
+      ]
+    },
+    {
+      "number": 28,
+      "question": "Which of the following expressions compile without error? (Choose all that apply.)",
+      "choices": {
+        "A": "int monday = 3 + 2.0;",
+        "B": "double tuesday = 5_6L;",
+        "C": "boolean wednesday = 1 > 2 ? !true;",
+        "D": "short thursday = (short)Integer.MAX_VALUE;",
+        "E": "long friday = 8.0L;",
+        "F": "var saturday = 2_.0;",
+        "G": "None of the above"
+      },
+      "answer": [
+        "B",
+        "D"
+      ],
+      "explanation": "Option A does not compile, as the expression 3 + 2.0 is evaluated as a double,\n    and a double requires an explicit cast to be assigned to an int. Option B compiles without\n     issue, as a long value can be implicitly cast to a double. Option C does not compile\n    because the ternary operator (? :) is missing a colon (:), followed by a second expression.\n    Option D is correct. Even though the int value is larger than a short, it is explicitly cast to\n    a short, which means the value will wrap around to fit in a short. Option E is incorrect,\n    as you cannot use a decimal (.) with the long (L) postfix. Finally, option F is incorrect, as an\n    underscore cannot be used next to a decimal point. For more information, see Chapter 2.",
+      "answer_pages": [
+        19
+      ],
+      "pages": [
+        13
+      ]
+    },
+    {
+      "number": 29,
+      "question": "What is the result of executing the following application?\n    final var cb = new CyclicBarrier(3,\n       () -> System.out.println(\"Clean!\"));  // u1\n    ExecutorService service = Executors.newSingleThreadExecutor();\n    try {\n       IntStream.generate(()  -> 1)\n          .limit(12)\n          .parallel()\n          .forEach(i  -> service.submit(() -> cb.await()));  // u2\n    } finally { service.shutdown(); }",
+      "choices": {
+        "A": "It outputs Clean! at least once.",
+        "B": "It outputs Clean! exactly four times.",
+        "C": "The code will not compile because of line u1.",
+        "D": "The code will not compile because of line u2.",
+        "E": "It compiles but throws an exception at runtime.",
+        "F": "It compiles but waits forever at runtime."
+      },
+      "answer": "F",
+      "explanation": "The code compiles without issue. The key to understanding this code is to notice that our\n    thread executor contains only one thread, but our CyclicBarrier limit is 3. Even though\n   12 tasks are all successfully submitted to the service, the first task will block forever on the\n     call to await(). Since the barrier is never reached, nothing is printed, and the program\n    hangs, making option F correct. For more information, see Chapter 13.",
+      "answer_pages": [
+        19
+      ],
+      "pages": [
+        13
+      ]
+    },
+    {
+      "number": 30,
+      "question": "Which statement about the following method is true?\n    5:  public static void main(String... unused) {\n    6:     System.out.print(\"a\");\n    7:     try (StringBuilder reader = new StringBuilder()) {\n    8:        System.out.print(\"b\");\n    9:        throw new IllegalArgumentException();\n    10:    } catch (Exception e || RuntimeException e) {\n    11:       System.out.print(\"c\");\n    12:       throw new FileNotFoundException();\n    13:    } finally {\n    14:       System.out.print(\"d\");\n    15: } }",
+      "choices": {
+        "A": "It compiles and prints abc.",
+        "B": "It compiles and prints abd.",
+        "C": "It compiles and prints abcd.",
+        "D": "One line contains a compiler error.",
+        "E": "Two lines contain a compiler error.",
+        "F": "Three lines contain a compiler error.",
+        "G": "It compiles but prints an exception at runtime."
+      },
+      "answer": "F",
+      "explanation": "Line 5 does not compile as the FileNotFoundException thrown on line 12 is not han-\n    dled or declared by the method. Line 7 does not compile because StringBuilder does not\n    implement AutoCloseable and is therefore not compatible with a try-with-resource state-\n    ment. Finally, line 10 does not compile as RuntimeException is a subclass of Exception\n     in the multi-catch block, making it redundant. Since this method contains three compiler\n     errors, option F is the correct answer. For more information, see Chapter 11.",
+      "answer_pages": [
+        19
+      ],
+      "pages": [
+        13,
+        14
+      ]
+    }
+  ],
+  "warnings": [
+    "Question number 9: found 1 question(s) and 2 answer entr(y/ies); left answers unmatched.",
+    "Question number 10: found 1 question(s) and 2 answer entr(y/ies); left answers unmatched."
+  ]
+}

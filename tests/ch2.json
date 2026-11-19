@@ -1,0 +1,71 @@
+{
+  "source_pdf": "ch2q.pdf",
+  "answer_pdfs": [
+    "ch2a.pdf"
+  ],
+  "name": "Chapter 2: Operators",
+  "question_count": 21,
+  "questions": [
+    {
+      "number": 1,
+      "question": "Which of the following Java operators can be used with boolean variables? (Choose all\n     that apply.)",
+      "choices": {
+        "A": "==",
+        "B": "+",
+        "C": "--",
+        "D": "!",
+        "E": "%",
+        "F": "~",
+        "G": "Cast with (boolean)"
+      },
+      "answer": ["A", "D", "G"],
+      "explanation": "Option A is the equality operator and can be used on primitives and object references. Options B and C are both arithmetic operators and cannot be applied to a boolean value. Option D is the logical complement operator and is used exclusively with boolean values. Option E is the modulus operator, which can be used only with numeric primitives. Option F is a bitwise complement operator and can only be applied to integer values. Finally, option G is correct, as you can cast a boolean variable since boolean is a type.",
+      "answer_pages": null,
+      "pages": [
+        1
+      ]
+    },
+    {
+      "number": 2,
+      "question": "What data type (or types) will allow the following code snippet to compile? (Choose all\n     that apply.)\n    byte apples = 5;\n    short oranges = 10;\n    _____ bananas = apples + oranges;",
+      "choices": {
+        "A": "int",
+        "B": "long",
+        "C": "boolean",
+        "D": "double",
+        "E": "short",
+        "F": "byte"
+      },
+      "answer": ["A", "B", "D"],
+      "explanation": "The expression apples + oranges is automatically promoted to int, so int and data types that can be promoted automatically from int will work. Options A, B, and D are such data types. Option C will not work because boolean is not a numeric data type. Options E and F will not work without an explicit cast to a smaller data type.",
+      "answer_pages": null,
+      "pages": [
+        1
+      ]
+    },
+    {
+      "number": 3,
+      "question": "What change, when applied independently, would allow the following code snippet to\n    compile? (Choose all that apply.)\n    3: long ear = 10;\n    4: int hearing = 2 * ear;",
+      "choices": {
+        "A": "No change; it compiles as is.",
+        "B": "Cast ear on line 4 to int.",
+        "C": "Change the data type of ear on line 3 to short.",
+        "D": "Cast 2 * ear on line 4 to int.",
+        "E": "Change the data type of hearing on line 4 to short.",
+        "F": "Change the data type of hearing on line 4 to long.\n                                                   Review Questions        95"
+      },
+      "answer": ["B", "C", "D", "F"],
+      "explanation": "The code will not compile as is, so option A is not correct. The value 2 * ear is automatically promoted to long and cannot be automatically stored in hearing, which is an int value. Options B, C, and D solve this problem by reducing the long value to int. Option E does not solve the problem and actually makes it worse by attempting to place the value in a smaller data type. Option F solves the problem by increasing the data type of the assignment so that long is allowed.",
+      "answer_pages": null,
+      "pages": [
+        1,
+        2
+      ]
+    }
+  ],
+  "warnings": [
+    "Question number 1: found 1 question(s) and 2 answer entr(y/ies); left answers unmatched.",
+    "Question number 2: found 1 question(s) and 2 answer entr(y/ies); left answers unmatched.",
+    "Question number 3: found 1 question(s) and 2 answer entr(y/ies); left answers unmatched."
+  ]
+}

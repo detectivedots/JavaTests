@@ -1,0 +1,582 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#111827">
+  <meta name="description" content="A responsive multiple-choice practice app for Java certification questions.">
+  <title>Java Chapter Tests</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --page: #f4f6fb;
+      --surface: #ffffff;
+      --surface-soft: #f8faff;
+      --ink: #172033;
+      --muted: #647089;
+      --line: #e1e6f0;
+      --brand: #4f46e5;
+      --brand-dark: #3730a3;
+      --brand-soft: #eef0ff;
+      --green: #16834b;
+      --green-bg: #eaf8f0;
+      --red: #bd3434;
+      --red-bg: #fff0ef;
+      --amber: #99620a;
+      --amber-bg: #fff7e6;
+      --shadow: 0 12px 34px rgba(25, 38, 75, .07);
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; }
+    html { min-width: 320px; scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--page);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    button, input { font: inherit; }
+    button { -webkit-tap-highlight-color: transparent; }
+    button:focus-visible, input:focus-visible + .choice-content {
+      outline: 3px solid rgba(79, 70, 229, .32);
+      outline-offset: 3px;
+    }
+
+    .topbar {
+      min-height: 66px;
+      padding: 0 clamp(18px, 4vw, 52px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      background: #111827;
+      color: #fff;
+    }
+    .brand { display: flex; align-items: center; gap: 11px; font-weight: 750; letter-spacing: -.02em; }
+    .brand-mark {
+      display: grid; place-items: center; width: 34px; height: 34px;
+      border-radius: 10px; background: #4f46e5; color: white; font-size: 17px;
+    }
+    .topbar-note { color: #c3cada; font-size: 13px; }
+    .page-shell { width: min(1160px, calc(100% - 40px)); margin: 0 auto; padding: 44px 0 64px; }
+    .eyebrow { margin: 0 0 10px; color: var(--brand); font-size: 11px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { margin-bottom: 10px; font-size: clamp(28px, 4vw, 40px); line-height: 1.14; letter-spacing: -.045em; }
+    h2 { letter-spacing: -.025em; }
+    .intro { max-width: 650px; margin-bottom: 0; color: var(--muted); line-height: 1.65; }
+    .hero-row { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; margin-bottom: 32px; }
+    .library-count { flex: 0 0 auto; padding: 11px 15px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); color: var(--muted); font-size: 13px; }
+    .library-count strong { color: var(--ink); }
+    .section-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 0 0 14px; }
+    .section-heading h2 { margin: 0; font-size: 17px; }
+    .section-note { color: var(--muted); font-size: 12px; }
+    .chapter-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+    .chapter-card {
+      min-height: 176px; width: 100%; padding: 20px; display: flex; flex-direction: column; align-items: stretch;
+      text-align: left; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface);
+      box-shadow: 0 3px 12px rgba(25, 38, 75, .025); color: var(--ink); cursor: pointer;
+      transition: transform .16s ease, border-color .16s ease, box-shadow .16s ease;
+    }
+    .chapter-card:hover { transform: translateY(-3px); border-color: #b9befb; box-shadow: var(--shadow); }
+    .chapter-card:focus-visible { outline: 3px solid rgba(79, 70, 229, .35); outline-offset: 3px; }
+    .chapter-card-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 22px; }
+    .chapter-icon { width: 39px; height: 39px; display: grid; place-items: center; border-radius: 12px; background: var(--brand-soft); color: var(--brand); font-size: 19px; }
+    .card-arrow { color: #929bb0; font-size: 20px; }
+    .chapter-name { margin: 0 0 8px; font-size: 17px; line-height: 1.35; font-weight: 750; }
+    .chapter-meta { color: var(--muted); font-size: 13px; }
+    .notice {
+      margin: 18px 0 0; padding: 14px 16px; border: 1px solid #f0dfb6; border-radius: 12px;
+      background: var(--amber-bg); color: #78500d; font-size: 13px; line-height: 1.55;
+    }
+    .notice.error { border-color: #f1c8c5; background: var(--red-bg); color: #8d2c2c; }
+    .empty-state {
+      padding: 42px 24px; text-align: center; border: 1px dashed #cbd2e1; border-radius: var(--radius);
+      background: rgba(255,255,255,.55);
+    }
+    .empty-icon { margin-bottom: 12px; font-size: 30px; }
+    .empty-state h3 { margin-bottom: 7px; font-size: 18px; }
+    .empty-state p { max-width: 560px; margin: 0 auto; color: var(--muted); line-height: 1.6; font-size: 14px; }
+    code.inline-code { padding: 2px 5px; border-radius: 5px; background: #edf0f7; color: #353e55; font-size: .92em; }
+
+    .quiz-header { margin-bottom: 18px; }
+    .back-button {
+      display: inline-flex; align-items: center; gap: 8px; margin: 0 0 20px; padding: 8px 0;
+      border: 0; background: transparent; color: var(--muted); font-weight: 650; font-size: 13px; cursor: pointer;
+    }
+    .back-button:hover { color: var(--brand); }
+    .quiz-title-row { display: flex; align-items: flex-end; justify-content: space-between; gap: 18px; }
+    .quiz-title-row h1 { margin-bottom: 5px; }
+    .quiz-subtitle { margin: 0; color: var(--muted); font-size: 13px; }
+    .no-timer { flex: 0 0 auto; padding: 8px 11px; border: 1px solid var(--line); border-radius: 999px; background: #fff; color: var(--muted); font-size: 12px; }
+
+    .score-panel {
+      position: sticky; top: 8px; z-index: 5; margin: 22px 0 24px; padding: 15px 18px 13px;
+      border: 1px solid var(--line); border-radius: 15px; background: rgba(255,255,255,.96);
+      box-shadow: 0 8px 22px rgba(28, 39, 77, .055); backdrop-filter: blur(12px);
+    }
+    .score-top { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 11px; }
+    .score-main { display: flex; align-items: baseline; flex-wrap: wrap; gap: 9px; }
+    .score-label { color: var(--muted); font-size: 12px; font-weight: 700; }
+    .score-value { font-size: 21px; letter-spacing: -.04em; font-weight: 800; font-variant-numeric: tabular-nums; }
+    .score-percent { color: var(--brand); font-size: 13px; font-weight: 750; }
+    .completion-label { color: var(--muted); text-align: right; font-size: 12px; font-variant-numeric: tabular-nums; }
+    .progress-track { height: 7px; overflow: hidden; border-radius: 99px; background: #edf0f6; }
+    .progress-fill { width: 0; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #6366f1, #8b5cf6); transition: width .2s ease; }
+
+    .quiz-layout { display: grid; grid-template-columns: 220px minmax(0, 1fr); align-items: start; gap: 20px; }
+    .navigator, .question-card { border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); box-shadow: 0 4px 18px rgba(25, 38, 75, .035); }
+    .navigator { padding: 17px; }
+    .navigator-title { margin: 0 0 13px; font-size: 13px; font-weight: 800; }
+    .question-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 7px; }
+    .question-jump {
+      aspect-ratio: 1; min-width: 0; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 9px;
+      background: #fff; color: #68738a; font-size: 12px; font-weight: 700; cursor: pointer;
+    }
+    .question-jump:hover { border-color: #aaaef6; color: var(--brand); }
+    .question-jump.current { border-color: var(--brand); background: var(--brand-soft); color: var(--brand-dark); box-shadow: inset 0 0 0 1px var(--brand); }
+    .question-jump.correct { border-color: #b5e2c8; background: var(--green-bg); color: var(--green); }
+    .question-jump.incorrect, .question-jump.revealed { border-color: #f1c3c0; background: var(--red-bg); color: var(--red); }
+    .question-jump.ungraded { border-color: #eed9a9; background: var(--amber-bg); color: var(--amber); }
+    .question-jump.current.correct, .question-jump.current.incorrect, .question-jump.current.revealed, .question-jump.current.ungraded { box-shadow: inset 0 0 0 1px currentColor; }
+    .nav-legend { display: grid; gap: 8px; margin-top: 16px; color: var(--muted); font-size: 11px; }
+    .legend-item { display: flex; align-items: center; gap: 7px; }
+    .legend-dot { width: 9px; height: 9px; border-radius: 3px; background: #edf0f6; border: 1px solid #dbe0ea; }
+    .legend-dot.done { background: var(--green-bg); border-color: #b5e2c8; }
+    .legend-dot.missed { background: var(--red-bg); border-color: #f1c3c0; }
+
+    .question-card { min-width: 0; padding: clamp(20px, 3vw, 32px); }
+    .question-meta { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 18px; }
+    .question-index { color: var(--brand); font-size: 11px; font-weight: 850; letter-spacing: .1em; text-transform: uppercase; }
+    .question-type { color: var(--muted); font-size: 11px; }
+    .question-text {
+      margin: 0 0 13px; color: #202a40; font-size: clamp(16px, 1.8vw, 18px); line-height: 1.7;
+      white-space: pre-wrap; overflow-wrap: anywhere; word-break: normal; tab-size: 4;
+    }
+    .select-hint { margin: 0 0 16px; color: var(--muted); font-size: 12px; }
+    .choices { display: grid; gap: 10px; margin: 0; padding: 0; border: 0; min-width: 0; }
+    .choice {
+      display: grid; grid-template-columns: 20px 31px minmax(0, 1fr); align-items: start; gap: 11px;
+      padding: 13px 14px; border: 1px solid var(--line); border-radius: 12px; background: #fff; cursor: pointer;
+      transition: border-color .14s ease, background .14s ease;
+    }
+    .choice:hover { border-color: #b7baf5; background: #fbfbff; }
+    .choice.selected { border-color: #8888ef; background: #f6f6ff; }
+    .choice input { width: 17px; height: 17px; margin: 2px 0 0; accent-color: var(--brand); cursor: pointer; }
+    .choice-key { width: 27px; height: 27px; display: grid; place-items: center; border-radius: 8px; background: #f0f2f8; color: #5f6980; font-size: 11px; font-weight: 850; }
+    .choice.selected .choice-key { background: #e5e6ff; color: var(--brand-dark); }
+    .choice-content {
+      min-width: 0; color: #344057; font-size: 14px; line-height: 1.62;
+      white-space: pre-wrap; overflow-wrap: anywhere; word-break: normal; tab-size: 4;
+    }
+    .choice:has(input:disabled) { cursor: default; }
+    .choice.correct-choice { border-color: #a8dabd; background: #f1fbf5; }
+    .choice.correct-choice .choice-key { background: #d9f2e3; color: #12663b; }
+    .choice.wrong-choice { border-color: #efb5b0; background: #fff7f6; }
+    .choice.wrong-choice .choice-key { background: #ffe5e2; color: #a52c2c; }
+
+    .question-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 9px; margin-top: 22px; }
+    .button {
+      min-height: 42px; display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 0 16px; border: 1px solid transparent; border-radius: 10px; font-size: 13px; font-weight: 750; cursor: pointer;
+      transition: background .14s ease, border-color .14s ease, transform .14s ease;
+    }
+    .button:active { transform: translateY(1px); }
+    .button:disabled { opacity: .45; cursor: not-allowed; transform: none; }
+    .button-primary { background: var(--brand); color: #fff; }
+    .button-primary:hover:not(:disabled) { background: var(--brand-dark); }
+    .button-secondary { border-color: var(--line); background: #fff; color: #3f4a62; }
+    .button-secondary:hover:not(:disabled) { border-color: #b9befb; background: #fafaff; }
+    .button-quiet { background: transparent; color: var(--muted); }
+    .button-quiet:hover:not(:disabled) { background: #f2f4f9; color: var(--ink); }
+    .action-spacer { flex: 1; }
+    .inline-message { width: 100%; min-height: 17px; margin: 0; color: var(--red); font-size: 12px; }
+
+    .feedback { margin-top: 21px; padding: 17px 18px; border: 1px solid var(--line); border-radius: 13px; background: var(--surface-soft); }
+    .feedback.correct { border-color: #b7e2c8; background: var(--green-bg); }
+    .feedback.incorrect, .feedback.revealed { border-color: #f0c6c2; background: var(--red-bg); }
+    .feedback.ungraded { border-color: #eed9a9; background: var(--amber-bg); }
+    .feedback-heading { display: flex; align-items: center; gap: 9px; margin: 0 0 8px; font-size: 14px; font-weight: 850; }
+    .feedback.correct .feedback-heading { color: var(--green); }
+    .feedback.incorrect .feedback-heading, .feedback.revealed .feedback-heading { color: var(--red); }
+    .feedback.ungraded .feedback-heading { color: var(--amber); }
+    .answer-line { margin: 0 0 10px; color: #364159; font-size: 13px; line-height: 1.6; }
+    .answer-key { display: inline-flex; gap: 5px; flex-wrap: wrap; vertical-align: middle; }
+    .answer-chip { padding: 3px 8px; border: 1px solid rgba(70,80,100,.13); border-radius: 6px; background: rgba(255,255,255,.7); font-size: 11px; font-weight: 850; }
+    .explanation-label { margin: 13px 0 6px; color: #59657b; font-size: 10px; font-weight: 850; letter-spacing: .1em; text-transform: uppercase; }
+    .explanation-text {
+      margin: 0; color: #364159; font-size: 13px; line-height: 1.7; white-space: pre-wrap;
+      overflow-wrap: anywhere; word-break: normal; tab-size: 4;
+    }
+    .no-explanation { color: var(--muted); font-size: 12px; font-style: italic; }
+    .bottom-navigation { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-top: 22px; }
+    .bottom-navigation .button { min-width: 112px; }
+    .question-position { color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
+    .complete-banner { display: none; margin: 0 0 17px; padding: 13px 16px; border: 1px solid #b7e2c8; border-radius: 12px; background: var(--green-bg); color: #176640; font-size: 13px; line-height: 1.5; }
+    .complete-banner.visible { display: block; }
+
+    .loading, .load-error { padding: 32px; text-align: center; color: var(--muted); }
+    .spinner { width: 22px; height: 22px; margin: 0 auto 12px; border: 2px solid #dfe3ee; border-top-color: var(--brand); border-radius: 50%; animation: spin .8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .footer { padding: 20px; border-top: 1px solid var(--line); color: #8490a5; text-align: center; font-size: 11px; }
+
+    @media (max-width: 900px) {
+      .chapter-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .quiz-layout { grid-template-columns: 1fr; }
+      .navigator { padding: 13px 15px; }
+      .question-grid { grid-template-columns: repeat(auto-fill, minmax(38px, 1fr)); }
+      .nav-legend { display: flex; flex-wrap: wrap; gap: 13px; }
+    }
+    @media (max-width: 600px) {
+      .topbar { min-height: 58px; }
+      .topbar-note { display: none; }
+      .page-shell { width: min(100% - 28px, 1160px); padding: 30px 0 42px; }
+      .hero-row { display: block; margin-bottom: 25px; }
+      .library-count { display: inline-block; margin-top: 17px; }
+      .chapter-grid { grid-template-columns: 1fr; gap: 11px; }
+      .chapter-card { min-height: 130px; padding: 16px; }
+      .chapter-card-top { margin-bottom: 13px; }
+      .quiz-title-row { align-items: flex-start; }
+      .no-timer { display: none; }
+      .score-panel { top: 5px; padding: 12px 13px 11px; margin: 17px 0 15px; }
+      .score-top { gap: 8px; margin-bottom: 9px; }
+      .score-value { font-size: 19px; }
+      .completion-label { max-width: 125px; line-height: 1.4; }
+      .navigator { padding: 12px; }
+      .question-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+      .question-card { padding: 18px 15px; }
+      .question-meta { margin-bottom: 13px; }
+      .question-text { font-size: 16px; line-height: 1.65; }
+      .choice { grid-template-columns: 19px 28px minmax(0, 1fr); gap: 8px; padding: 11px 10px; }
+      .choice-content { font-size: 13px; }
+      .question-actions { gap: 7px; }
+      .question-actions .button { flex: 1 1 auto; padding: 0 11px; }
+      .action-spacer { display: none; }
+      .bottom-navigation { margin-top: 18px; }
+      .bottom-navigation .button { min-width: 0; flex: 1; }
+      .question-position { min-width: 45px; text-align: center; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="brand-mark" aria-hidden="true">{ }</span><span>Java Chapter Tests</span></div>
+    <div class="topbar-note">Practice at your own pace · No timer</div>
+  </header>
+
+  <main id="app" class="page-shell" aria-live="polite">
+    <div class="loading"><div class="spinner" aria-hidden="true"></div>Loading your question bank…</div>
+  </main>
+  <footer class="footer">Answers stay in their original order · Progress is kept only while this page remains open</footer>
+
+  <script>
+    (() => {
+      "use strict";
+
+      const MANIFEST_URL = new URL("./tests/manifest.json", window.location.href);
+      const TESTS_BASE_URL = new URL("./tests/", window.location.href);
+      const app = document.getElementById("app");
+
+      let tests = [];
+      let loadWarnings = [];
+      let activeTest = null;
+      let currentIndex = 0;
+      let responses = [];
+      let drafts = [];
+
+      const escapeHTML = (value) => String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#39;");
+
+      // Keep extracted indentation and line breaks. Remove only form-feed markers and
+      // recognizable running headers from the sample book; do not collapse whitespace.
+      function displayText(value) {
+        let text = String(value ?? "").replace(/\r\n?/g, "\n").replace(/\f/g, "\n");
+        text = text.replace(/^[ \t\u00a0\u2000-\u200b]*(?:(?:Review Questions|Assessment Test|Introduction)[ \t\u00a0\u2000-\u200b]*\d{1,4}|\d{1,4}[ \t\u00a0\u2000-\u200b]*(?:Review Questions|Assessment Test|Introduction))[ \t\u00a0\u2000-\u200b]*$/gim, "");
+        return text;
+      }
+
+      function normalizeAnswer(answer, choiceKeys) {
+        if (answer === null || answer === undefined || answer === "") return [];
+        const raw = Array.isArray(answer) ? answer.flatMap(value => String(value).split(/[\s,;]+/)) : String(answer).split(/[\s,;]+/);
+        const valid = new Set(choiceKeys.map(key => String(key).toUpperCase()));
+        return [...new Set(raw.map(value => String(value).trim().replace(/[.。]$/, "").toUpperCase()).filter(value => valid.has(value)))].sort();
+      }
+
+      function answerFor(question) {
+        const keys = Object.keys(question.choices || {});
+        return normalizeAnswer(question.answer, keys);
+      }
+
+      async function loadQuestionBank() {
+        try {
+          const manifestResponse = await fetch(MANIFEST_URL, { cache: "no-store" });
+          if (!manifestResponse.ok) throw new Error(`Could not load tests/manifest.json (${manifestResponse.status}).`);
+          const manifest = await manifestResponse.json();
+          const fileList = Array.isArray(manifest) ? manifest : (manifest.tests || manifest.files || []);
+          if (!Array.isArray(fileList)) throw new Error("The manifest must contain an array named 'tests'.");
+
+          const results = await Promise.all(fileList.map(async (filename) => {
+            if (typeof filename !== "string" || !filename.trim()) {
+              loadWarnings.push("The manifest contains an invalid filename.");
+              return null;
+            }
+            try {
+              const url = new URL(filename, TESTS_BASE_URL);
+              if (url.origin !== TESTS_BASE_URL.origin || !url.pathname.startsWith(TESTS_BASE_URL.pathname)) {
+                throw new Error("The test filename must point to a JSON file inside the tests folder.");
+              }
+              const response = await fetch(url, { cache: "no-store" });
+              if (!response.ok) throw new Error(`HTTP ${response.status}`);
+              const data = await response.json();
+              if (!data || !Array.isArray(data.questions) || data.questions.length === 0) throw new Error("JSON is missing a non-empty questions array.");
+              return { ...data, _file: filename, _displayName: data.name || filename };
+            } catch (error) {
+              loadWarnings.push(`${filename}: ${error.message}`);
+              return null;
+            }
+          }));
+
+          tests = results.filter(Boolean).sort((a, b) => String(a._displayName).localeCompare(String(b._displayName), undefined, { numeric: true }));
+          renderLibrary();
+        } catch (error) {
+          app.innerHTML = `
+            <div class="empty-state">
+              <div class="empty-icon" aria-hidden="true">⚠</div>
+              <h3>Couldn't load the question bank</h3>
+              <p>${escapeHTML(error.message)} Make sure <code class="inline-code">tests/manifest.json</code> exists and that the site is being served over HTTP or HTTPS.</p>
+            </div>`;
+        }
+      }
+
+      function renderLibrary() {
+        const warningHTML = loadWarnings.length
+          ? `<div class="notice error"><strong>Some files could not be loaded.</strong><br>${loadWarnings.map(escapeHTML).join("<br>")}</div>`
+          : "";
+
+        const cards = tests.map((test, index) => `
+          <button class="chapter-card" type="button" data-test-index="${index}">
+            <span class="chapter-card-top"><span class="chapter-icon" aria-hidden="true">▤</span><span class="card-arrow" aria-hidden="true">↗</span></span>
+            <span class="chapter-name">${escapeHTML(test._displayName)}</span>
+            <span class="chapter-meta">${test.questions.length} ${test.questions.length === 1 ? "question" : "questions"}</span>
+          </button>`).join("");
+
+        app.innerHTML = `
+          <section class="hero-row">
+            <div>
+              <p class="eyebrow">YOUR QUESTION BANK</p>
+              <h1>Choose a chapter</h1>
+              <p class="intro">Pick a chapter to start its practice test. Every question is shown with its original choices, and explanations appear after you submit or reveal the answer.</p>
+            </div>
+            <div class="library-count"><strong>${tests.length}</strong> ${tests.length === 1 ? "test" : "tests"} available</div>
+          </section>
+          <section aria-labelledby="available-heading">
+            <div class="section-heading"><h2 id="available-heading">Available tests</h2><span class="section-note">Choose a chapter to begin</span></div>
+            ${tests.length
+              ? `<div class="chapter-grid">${cards}</div>`
+              : `<div class="empty-state"><div class="empty-icon" aria-hidden="true">📚</div><h3>No tests found yet</h3><p>Add your chapter JSON files to the <code class="inline-code">tests/</code> folder, then list their filenames in <code class="inline-code">tests/manifest.json</code>. The chapter title comes from each JSON file's <code class="inline-code">name</code> field.</p></div>`}
+          </section>
+          ${warningHTML}`;
+
+        app.querySelectorAll("[data-test-index]").forEach(button => {
+          button.addEventListener("click", () => startTest(Number(button.dataset.testIndex)));
+        });
+      }
+
+      function startTest(testIndex) {
+        activeTest = tests[testIndex];
+        currentIndex = 0;
+        responses = Array(activeTest.questions.length).fill(null);
+        drafts = activeTest.questions.map(() => []);
+        renderQuiz();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      function scoreStats() {
+        const completed = responses.filter(Boolean).length;
+        const graded = responses.filter(response => response && response.status !== "ungraded").length;
+        const correct = responses.filter(response => response && response.status === "correct").length;
+        const percent = graded ? Math.round(correct / graded * 100) : null;
+        return { completed, graded, correct, percent, total: activeTest.questions.length };
+      }
+
+      function renderQuiz() {
+        const question = activeTest.questions[currentIndex] || {};
+        const choices = question.choices && typeof question.choices === "object" ? question.choices : {};
+        const choiceKeys = Object.keys(choices);
+        const correctAnswers = answerFor(question);
+        const response = responses[currentIndex];
+        const selected = response ? response.selected : drafts[currentIndex];
+        const stats = scoreStats();
+        const allCompleted = stats.completed === stats.total;
+
+        const scoreText = stats.graded ? `${stats.correct} / ${stats.graded}` : "—";
+        const percentText = stats.percent === null ? "Not scored yet" : `${stats.percent}%`;
+        const progress = stats.total ? stats.completed / stats.total * 100 : 0;
+
+        const navButtons = activeTest.questions.map((item, index) => {
+          const status = responses[index]?.status || "";
+          const classes = ["question-jump", status, index === currentIndex ? "current" : ""].filter(Boolean).join(" ");
+          const number = item.number ?? index + 1;
+          const label = `Go to question ${number}${status ? `, ${status}` : ", not completed"}`;
+          return `<button type="button" class="${classes}" data-jump="${index}" aria-label="${escapeHTML(label)}" aria-current="${index === currentIndex ? "step" : "false"}">${escapeHTML(number)}</button>`;
+        }).join("");
+
+        const choiceHTML = choiceKeys.map(key => {
+          const isChecked = selected.includes(key);
+          const isCorrect = response && correctAnswers.includes(String(key).toUpperCase());
+          const isWrongSelection = response && response.selected.includes(key) && !correctAnswers.includes(String(key).toUpperCase());
+          const classNames = ["choice", isChecked ? "selected" : "", response && isCorrect ? "correct-choice" : "", isWrongSelection ? "wrong-choice" : ""].filter(Boolean).join(" ");
+          return `
+            <label class="${classNames}">
+              <input type="checkbox" name="answer" value="${escapeHTML(key)}" ${isChecked ? "checked" : ""} ${response ? "disabled" : ""}>
+              <span class="choice-key">${escapeHTML(key)}</span>
+              <span class="choice-content">${escapeHTML(displayText(choices[key]))}</span>
+            </label>`;
+        }).join("");
+
+        let feedbackHTML = "";
+        if (response) {
+          const feedbackType = response.status;
+          const heading = {
+            correct: "Correct!",
+            incorrect: "Not quite.",
+            revealed: "Answer revealed",
+            ungraded: "No answer key available"
+          }[feedbackType];
+          const answerHTML = correctAnswers.length
+            ? `<p class="answer-line"><strong>Correct answer${correctAnswers.length > 1 ? "s" : ""}:</strong> <span class="answer-key">${correctAnswers.map(letter => `<span class="answer-chip">${escapeHTML(letter)}</span>`).join("")}</span></p>`
+            : `<p class="answer-line">This question has no usable answer key, so it is not included in the score.</p>`;
+          const explanation = displayText(question.explanation);
+          feedbackHTML = `
+            <section class="feedback ${feedbackType}" aria-live="polite">
+              <h3 class="feedback-heading">${escapeHTML(heading)}</h3>
+              ${answerHTML}
+              ${explanation.trim()
+                ? `<div class="explanation-label">Explanation</div><p class="explanation-text">${escapeHTML(explanation)}</p>`
+                : `<p class="no-explanation">No explanation was provided for this question.</p>`}
+            </section>`;
+        }
+
+        const canGiveUp = !response;
+        app.innerHTML = `
+          <section class="quiz-header">
+            <button class="back-button" type="button" id="back-to-library"><span aria-hidden="true">←</span> All chapters</button>
+            <div class="quiz-title-row">
+              <div><p class="eyebrow">CHAPTER TEST</p><h1>${escapeHTML(activeTest._displayName)}</h1><p class="quiz-subtitle">${stats.total} questions · Original choice order · No time limit</p></div>
+              <span class="no-timer">◷ No timer</span>
+            </div>
+          </section>
+
+          <section class="score-panel" aria-label="Live score and progress">
+            <div class="score-top">
+              <div class="score-main"><span class="score-label">SCORE</span><strong class="score-value">${scoreText}</strong><span class="score-percent">${percentText}</span></div>
+              <div class="completion-label">${stats.completed} of ${stats.total} completed</div>
+            </div>
+            <div class="progress-track" role="progressbar" aria-label="Test completion" aria-valuemin="0" aria-valuemax="${stats.total}" aria-valuenow="${stats.completed}"><div class="progress-fill" style="width:${progress}%"></div></div>
+          </section>
+
+          <div class="complete-banner ${allCompleted ? "visible" : ""}" role="status">
+            <strong>Test completed.</strong> Final score: ${stats.correct} / ${stats.graded} graded ${stats.graded === 1 ? "question" : "questions"}${stats.percent === null ? "" : ` (${stats.percent}%)`}.${stats.total - stats.graded ? ` ${stats.total - stats.graded} question(s) had no usable answer key.` : ""} You can review any question using the navigator.
+          </div>
+
+          <div class="quiz-layout">
+            <aside class="navigator" aria-label="Question navigator">
+              <h2 class="navigator-title">Questions</h2>
+              <nav class="question-grid">${navButtons}</nav>
+              <div class="nav-legend">
+                <span class="legend-item"><i class="legend-dot done"></i> Correct</span>
+                <span class="legend-item"><i class="legend-dot missed"></i> Incorrect / gave up</span>
+                <span class="legend-item"><i class="legend-dot"></i> Not completed</span>
+              </div>
+            </aside>
+
+            <section class="question-card" aria-labelledby="question-text">
+              <div class="question-meta"><span class="question-index">QUESTION ${currentIndex + 1} OF ${stats.total}</span><span class="question-type">Multiple choice · Select all that apply</span></div>
+              <p class="question-text" id="question-text">${escapeHTML(displayText(question.question))}</p>
+              <p class="select-hint">Select one or more options.</p>
+              <fieldset class="choices" aria-label="Answer choices">${choiceHTML || `<p class="no-explanation">No choices were found for this question.</p>`}</fieldset>
+              <div class="question-actions">
+                <button class="button button-primary" type="button" id="submit-answer" ${response || !choiceKeys.length ? "disabled" : ""}>Submit answer</button>
+                <button class="button button-secondary" type="button" id="give-up" ${!canGiveUp ? "disabled" : ""}>Give up · Show answer</button>
+                <span class="action-spacer"></span>
+                <p class="inline-message" id="inline-message" aria-live="polite"></p>
+              </div>
+              ${feedbackHTML}
+              <div class="bottom-navigation">
+                <button class="button button-secondary" type="button" id="previous-question" ${currentIndex === 0 ? "disabled" : ""}>← Previous</button>
+                <span class="question-position">${currentIndex + 1} / ${stats.total}</span>
+                <button class="button button-secondary" type="button" id="next-question" ${currentIndex === stats.total - 1 ? "disabled" : ""}>Next →</button>
+              </div>
+            </section>
+          </div>`;
+
+        app.querySelector("#back-to-library").addEventListener("click", () => {
+          activeTest = null;
+          renderLibrary();
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+        app.querySelectorAll("[data-jump]").forEach(button => {
+          button.addEventListener("click", () => goToQuestion(Number(button.dataset.jump)));
+        });
+        app.querySelector("#previous-question").addEventListener("click", () => goToQuestion(currentIndex - 1));
+        app.querySelector("#next-question").addEventListener("click", () => goToQuestion(currentIndex + 1));
+
+        app.querySelectorAll('input[name="answer"]').forEach(input => {
+          input.addEventListener("change", () => {
+            const key = input.value;
+            const selectedNow = new Set(drafts[currentIndex]);
+            if (input.checked) selectedNow.add(key);
+            else selectedNow.delete(key);
+            drafts[currentIndex] = [...selectedNow];
+            input.closest(".choice").classList.toggle("selected", input.checked);
+          });
+        });
+
+        app.querySelector("#submit-answer").addEventListener("click", () => submitCurrent(false));
+        app.querySelector("#give-up").addEventListener("click", () => submitCurrent(true));
+      }
+
+      function submitCurrent(giveUp) {
+        if (responses[currentIndex]) return;
+        const question = activeTest.questions[currentIndex] || {};
+        const selected = [...drafts[currentIndex]].sort();
+        const correct = answerFor(question);
+        const hasAnswer = correct.length > 0;
+        const message = app.querySelector("#inline-message");
+
+        if (!giveUp && selected.length === 0) {
+          message.textContent = "Choose at least one option before submitting.";
+          return;
+        }
+
+        let status = "ungraded";
+        if (hasAnswer) {
+          status = giveUp ? "revealed" : (selected.length === correct.length && selected.every((key, index) => key === correct[index]) ? "correct" : "incorrect");
+        }
+        responses[currentIndex] = { status, selected };
+        renderQuiz();
+      }
+
+      function goToQuestion(index) {
+        if (index < 0 || index >= activeTest.questions.length) return;
+        currentIndex = index;
+        renderQuiz();
+        const questionCard = app.querySelector(".question-card");
+        if (questionCard && window.matchMedia("(max-width: 900px)").matches) {
+          questionCard.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }
+
+      loadQuestionBank();
+    })();
+  </script>
+</body>
+</html>

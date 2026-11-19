@@ -1,0 +1,433 @@
+{
+  "source_pdf": "ch11q.pdf",
+  "answer_pdfs": [
+    "ch11a.pdf"
+  ],
+  "name": "Exceptions and Localization",
+  "question_count": 19,
+  "questions": [
+    {
+      "number": 1,
+      "question": "Which of the following can be inserted on line 8 to make this code compile? (Choose all\n     that apply.)\n    7: public void whatHappensNext() throws IOException {\n    8:    // INSERT CODE HERE\n    9: }",
+      "choices": {
+        "A": "System.out.println(\"it's ok\");",
+        "B": "throw new Exception();",
+        "C": "throw new IllegalArgumentException();",
+        "D": "throw new java.io.IOException();",
+        "E": "throw new RuntimeException();",
+        "F": "None of the above"
+      },
+      "answer": [
+        "A",
+        "C",
+        "D",
+        "E"
+      ],
+      "explanation": "A method that declares an exception isn’t required to throw one, making option\n   A correct. Unchecked exceptions can be thrown in any method, making options C and E\n     correct. Option D matches the exception type declared, so it’s also correct. Option B is incor-\n     rect because a broader exception is not allowed.",
+      "answer_pages": [
+        1
+      ],
+      "pages": [
+        1
+      ]
+    },
+    {
+      "number": 2,
+      "question": "Which statement about the following class is correct?\n    1:  class Problem extends Exception {\n    2:     public Problem() {}\n    3:  }\n    4:  class YesProblem extends Problem {}\n    5:  public class MyDatabase {\n    6:     public static void connectToDatabase() throw Problem {\n    7:        throws new YesProblem();\n    8:     }\n    9:     public static void main(String[] c) throw Exception {\n    10:       connectToDatabase();\n    11:    }\n    12: }",
+      "choices": {
+        "A": "The code compiles and prints a stack trace for YesProblem at runtime.",
+        "B": "The code compiles and prints a stack trace for Problem at runtime.",
+        "C": "The code does not compile because Problem defines a constructor.",
+        "D": "The code does not compile because YesProblem does not define a constructor.",
+        "E": "The code does not compile but would if Problem and YesProblem were switched on lines\n       6 and 7.",
+        "F": "None of the above\n                                                   Review Questions        649"
+      },
+      "answer": "F",
+      "explanation": "The code does not compile because the throw and throws keywords are incorrectly used\n    on lines 6, 7, and 9. If the keywords were fixed, the rest of the code would compile and print\n    a stack trace with YesProblem at runtime. For this reason, option F is correct.",
+      "answer_pages": [
+        1
+      ],
+      "pages": [
+        1,
+        2
+      ]
+    },
+    {
+      "number": 3,
+      "question": "Which of the following are common types to localize? (Choose all that apply.)",
+      "choices": {
+        "A": "Dates",
+        "B": "Lambda expressions",
+        "C": "Class names",
+        "D": "Currency",
+        "E": "Numbers",
+        "F": "Variable names"
+      },
+      "answer": [
+        "A",
+        "D",
+        "E"
+      ],
+      "explanation": "Localization refers to user-facing elements. Dates, currency, and numbers are com-\n    monly used in different formats for different countries, making options A, D, and E correct.\n    Class and variable names, along with lambda expressions, are internal to the application, so\n     there is no need to translate them for users.",
+      "answer_pages": [
+        1
+      ],
+      "pages": [
+        2
+      ]
+    },
+    {
+      "number": 4,
+      "question": "What is the output of the following snippet, assuming a and b are both 0?\n    3:  try {\n    4:     System.out.print(a / b);\n    5:  } catch (RuntimeException e) {\n    6:     System.out.print(-1);\n    7:  } catch (ArithmeticException e) {\n    8:     System.out.print(0);\n    9:  } finally {\n    10:    System.out.print(\"done\");\n    11: }",
+      "choices": {
+        "A": "-1",
+        "B": "0",
+        "C": "done-1",
+        "D": "done0",
+        "E": "The code does not compile.",
+        "F": "An uncaught exception is thrown.",
+        "G": "None of the above"
+      },
+      "answer": "E",
+      "explanation": "The order of catch blocks is important because they’re checked in the order\n    they appear after the try block. Because ArithmeticException is a child\n     class of RuntimeException, the catch block on line 7 is unreachable (if an\n   ArithmeticException is thrown in the try block, it will be caught on line 5). Line 7\n     generates a compiler error because it is unreachable code, making option E correct.",
+      "answer_pages": [
+        1
+      ],
+      "pages": [
+        2
+      ]
+    },
+    {
+      "number": 5,
+      "question": "Assuming the current locale uses dollars ($) and the following method is called with a double\n    value of 100_102.2, which of the following values are printed? (Choose all that apply.)\n    public void print(double t) {\n       System.out.print(NumberFormat.getCompactNumberInstance().format(t));\n\n       System.out.print(\n          NumberFormat.getCompactNumberInstance(\n             Locale.getDefault(), Style.SHORT).format(t));\n\n       System.out.print(NumberFormat.getCurrencyInstance().format(t));\n    }\n650      Chapter 11  ■  Exceptions and Localization",
+      "choices": {
+        "A": "100",
+        "B": "$100,000.00",
+        "C": "100K",
+        "D": "100 thousand",
+        "E": "100M",
+        "F": "$100,102.20",
+        "G": "None of the above"
+      },
+      "answer": [
+        "C",
+        "F"
+      ],
+      "explanation": "The code compiles and runs without issue. When a CompactNumberFormat instance\n      is requested without a style, it uses the SHORT style by default. This results in both of the first\n    two statements printing 100K, making option C correct. If the LONG style were used, then\n   100 thousand would be printed. Option F is also correct, as the full value is printed with a\n    currency formatter.\n946      Appendix  ■  Answers to the Review Questions",
+      "answer_pages": [
+        1,
+        2
+      ],
+      "pages": [
+        2,
+        3
+      ]
+    },
+    {
+      "number": 6,
+      "question": "What is the output of the following code?\n    LocalDate date = LocalDate.parse(\"2022-04-30\",\n       DateTimeFormatter.ISO_LOCAL_DATE_TIME);\n    System.out.println(date.getYear() + \" \"\n       + date.getMonth() + \" \"+ date.getDayOfMonth());",
+      "choices": {
+        "A": "2022 APRIL 2",
+        "B": "2022 APRIL 30",
+        "C": "2022 MAY 2",
+        "D": "The code does not compile.",
+        "E": "A runtime exception is thrown."
+      },
+      "answer": "E",
+      "explanation": "A LocalDate does not have a time element. Therefore, a date/time formatter is not\n    appropriate. The code compiles but throws an exception at runtime, making option E correct.\n      If ISO_LOCAL_DATE were used, the code would print 2022 APRIL 30.",
+      "answer_pages": [
+        2
+      ],
+      "pages": [
+        3
+      ]
+    },
+    {
+      "number": 7,
+      "question": "What does the following method print?\n    11: public void tryAgain(String s) {\n    12:    try (FileReader r = null, p = new FileReader(\"\")) {\n    13:       System.out.print(\"X\");\n    14:       throw new IllegalArgumentException();\n    15:    } catch (Exception s) {\n    16:       System.out.print(\"A\");\n    17:       throw new FileNotFoundException();\n    18:    } finally {\n    19:       System.out.print(\"O\");\n    20:    }\n    21: }",
+      "choices": {
+        "A": "XAO",
+        "B": "XOA",
+        "C": "One line of this method contains a compiler error.",
+        "D": "Two lines of this method contain compiler errors.",
+        "E": "Three or more lines of this method contain compiler errors.",
+        "F": "The code compiles, but a NullPointerException is thrown at runtime.",
+        "G": "None of the above\n                                                   Review Questions        651"
+      },
+      "answer": "E",
+      "explanation": "The first compiler error is on line 12 because each resource in a try-with-resources state-\n    ment must have its own data type and be separated by a semicolon (;). Line 15 does not\n    compile because the variable s is already declared in the method. Line 17 also does not com-\n     pile. The FileNotFoundException, which inherits from IOException and Exception,\n      is a checked exception, so it must be handled in a try/catch block or declared by the\n    method. Because these three lines of code do not compile, option E is the correct answer.",
+      "answer_pages": [
+        2
+      ],
+      "pages": [
+        3,
+        4
+      ]
+    },
+    {
+      "number": 8,
+      "question": "Assume that all of the files mentioned in the answer choices exist and define the same keys.\n    Which one will be used to find the key in line 8?\n    6: Locale.setDefault(new Locale(\"en\", \"US\"));\n    7: var b = ResourceBundle.getBundle(\"Dolphins\");\n    8: System.out.println(b.getString(\"name\"));",
+      "choices": {
+        "A": "Dolphins.properties",
+        "B": "Dolphins_US.properties",
+        "C": "Dolphins_en.properties",
+        "D": "Whales.properties",
+        "E": "Whales_en_US.properties",
+        "F": "The code does not compile."
+      },
+      "answer": "C",
+      "explanation": "Java will first look for the most specific matches it can find, starting with\n   Dolphins_en_US.properties. Since that is not an answer choice, it drops the country\n    and looks for Dolphins_en.properties, making option C correct. Option B is incorrect\n    because a country without a language is not a valid locale.",
+      "answer_pages": [
+        2
+      ],
+      "pages": [
+        4
+      ]
+    },
+    {
+      "number": 9,
+      "question": "For what value of pattern will the following print <005.21> <008.49> <1,234.0>?\n    String pattern = \"                 \";\n    var message = DoubleStream.of(5.21, 8.49, 1234)\n       .mapToObj(v  -> new DecimalFormat(pattern).format(v))\n       .collect(Collectors.joining(\"> <\"));\n    System.out.println(\"<\"+message+\">\");",
+      "choices": {
+        "A": "##.#",
+        "B": "0,000.0#",
+        "C": "#,###.0",
+        "D": "#,###,000.0#",
+        "E": "The code does not compile regardless of what is placed in the blank.",
+        "F": "None of the above"
+      },
+      "answer": "D",
+      "explanation": "When working with a custom number formatter, the 0 symbol displays the digit as 0, even\n       if it’s not present, while the # symbol omits the digit from the start or end of the String if\n       it is not present. Based on the requested output, a String that displays at least three digits\n    before the decimal (including a comma) and at least one after the decimal is required. It\n    should display a second digit after the decimal if one is available. For this reason, option D is\n     the correct answer.",
+      "answer_pages": [
+        2
+      ],
+      "pages": [
+        4
+      ]
+    },
+    {
+      "number": 10,
+      "question": "Which scenario is the best use of an exception?",
+      "choices": {
+        "A": "An element is not found when searching a list.",
+        "B": "An unexpected parameter is passed into a method.",
+        "C": "The computer caught fire.",
+        "D": "You want to loop through a list.",
+        "E": "You don’t know how to code a method."
+      },
+      "answer": "B",
+      "explanation": "An IllegalArgumentException is used when an unexpected parameter is passed into\n    a method, making option B correct. Option A is incorrect because returning null or -1 is a\n   common return value for searching for data. Option D is incorrect because a for loop is typ-\n     ically used for this scenario. Option E is incorrect because you should find out how to code\n     the method and not leave it for the unsuspecting programmer who calls your method. Option\n   C is incorrect because you should run!",
+      "answer_pages": [
+        2
+      ],
+      "pages": [
+        4
+      ]
+    },
+    {
+      "number": 11,
+      "question": "Which of the following exceptions must be handled or declared in the method in which they\n     are thrown? (Choose all that apply.)\n    class Apple extends RuntimeException {}\n    class Orange extends Exception {}\n    class Banana extends Error {}\n    class Pear extends Apple {}\n    class Tomato extends Orange {}\n    class Peach extends Throwable {}\n652      Chapter 11  ■  Exceptions and Localization",
+      "choices": {
+        "A": "Apple",
+        "B": "Orange",
+        "C": "Banana",
+        "D": "Pear",
+        "E": "Tomato",
+        "F": "Peach"
+      },
+      "answer": [
+        "B",
+        "E",
+        "F"
+      ],
+      "explanation": "An exception that must be handled or declared is a checked exception. A checked\n    exception inherits Exception but not RuntimeException. The entire hierarchy counts,\n    so options B and E are both correct. Option F is also correct, as a class that inherits\n   Throwable but not RuntimeException or Error is also checked.",
+      "answer_pages": [
+        2
+      ],
+      "pages": [
+        4,
+        5
+      ]
+    },
+    {
+      "number": 12,
+      "question": "Which of the following changes, when made independently, would make this code compile?\n    (Choose all that apply.)\n    1:  import java.io.*;\n    2:  public class StuckTurkeyCage implements AutoCloseable {\n    3:     public void close() throws IOException {\n    4:        throw new FileNotFoundException(\"Cage not closed\");\n    5:     }\n    6:     public static void main(String[] args) {\n    7:        try (StuckTurkeyCage t = new StuckTurkeyCage()) {\n    8:           System.out.println(\"put turkeys in\");\n    9:        }\n    10:    } }",
+      "choices": {
+        "A": "Remove throws IOException from the declaration on line 3.",
+        "B": "Add throws Exception to the declaration on line 6.",
+        "C": "Change line 9 to } catch (Exception e) {}.",
+        "D": "Change line 9 to } finally {}.",
+        "E": "The code compiles as is.",
+        "F": "None of the above"
+      },
+      "answer": [
+        "B",
+        "C"
+      ],
+      "explanation": "The code does not compile as is because the exception declared by the close()\n    method must be handled or declared. Option A is incorrect because removing the exception\n    from the declaration causes a compilation error on line 4, as FileNotFoundException\n      is a checked exception that must be handled or declared. Option B is correct because the\n    unhandled exception within the main() method becomes declared. Option C is also correct\n    because the exception becomes handled. Option D is incorrect because the exception remains\n    unhandled.",
+      "answer_pages": [
+        2
+      ],
+      "pages": [
+        5
+      ]
+    },
+    {
+      "number": 13,
+      "question": "Which of the following are true statements about exception handling in Java? (Choose all\n     that apply.)",
+      "choices": {
+        "A": "A traditional try statement without a catch block requires a finally block.",
+        "B": "A traditional try statement without a finally block requires a catch block.",
+        "C": "A traditional try statement with only one statement can omit the {}.",
+        "D": "A try-with-resources statement without a catch block requires a finally block.",
+        "E": "A try-with-resources statement without a finally block requires a catch block.",
+        "F": "A try-with-resources statement with only one statement can omit the {}.\n                                                   Review Questions        653"
+      },
+      "answer": [
+        "A",
+        "B"
+      ],
+      "explanation": "A try-with-resources statement does not require a catch or finally block. A tra-\n     ditional try statement requires at least one of the two. Neither statement can be written\n    without a body encased in braces, {}. For these reasons, options A and B are correct.\n                                   Chapter 11: Exceptions and Localization        947",
+      "answer_pages": [
+        2,
+        3
+      ],
+      "pages": [
+        5,
+        6
+      ]
+    },
+    {
+      "number": 14,
+      "question": "Assuming -g:vars is used when the code is compiled to include debug information, what is\n     the output of the following code snippet?\n    var huey = (String)null;\n    Integer dewey = null;\n    Object louie = null;\n    if(louie == huey.substring(dewey.intValue())) {\n       System.out.println(\"Quack!\");\n    }",
+      "choices": {
+        "A": "A NullPointerException that does not include any variable names in the stack\n         trace",
+        "B": "A NullPointerException naming huey in the stack trace",
+        "C": "A NullPointerException naming dewey in the stack trace",
+        "D": "A NullPointerException naming louie in the stack trace",
+        "E": "A NullPointerException naming huey and louie in the stack trace",
+        "F": "A NullPointerException naming huey and dewey in the stack trace",
+        "G": "None of the above"
+      },
+      "answer": "C",
+      "explanation": "Starting with Java 15, NullPointerException stack traces include the\n   name of the variable that is null by default, making option A incorrect. The first\n   NullPointerException encountered at runtime is when dewey.intValue()\n      is called, making option C correct. Options E and F are incorrect as only one\n   NullPointerException exception can be thrown at a time.",
+      "answer_pages": [
+        3
+      ],
+      "pages": [
+        6
+      ]
+    },
+    {
+      "number": 15,
+      "question": "Which of the following, when inserted independently in the blank, use locale parameters that\n     are properly formatted? (Choose all that apply.)\n    import java.util.Locale;\n    public class ReadMap implements AutoCloseable {\n       private Locale locale;\n       private boolean closed = false;\n       @Override public void close() {\n          System.out.println(\"Folding map\");\n          locale = null;\n          closed = true;\n       }\n       public void open() {\n          this.locale =                  ;\n       }\n       public void use() {\n          // Implementation omitted\n       }\n    }",
+      "choices": {
+        "A": "new Locale(\"xM\")",
+        "B": "new Locale(\"MQ\", \"ks\")",
+        "C": "new Locale(\"qw\")",
+        "D": "new Locale(\"wp\", \"VW\")\n654      Chapter 11  ■  Exceptions and Localization",
+        "E": "Locale.create(\"zp\")",
+        "F": "new Locale.Builder().setLanguage(\"yw\").setRegion(\"PM\")",
+        "G": "The code does not compile regardless of what is placed in the blank."
+      },
+      "answer": [
+        "C",
+        "D"
+      ],
+      "explanation": "The code compiles with the appropriate input, so option G is incorrect. A locale con-\n      sists of a required lowercase language code and optional uppercase country code. In the\n   Locale() constructor, the language code is provided first. For these reasons, options C\n    and D are correct. Option E is incorrect because a Locale is created using a constructor\n    or Locale.Builder class. Option F is really close but is missing build() at the end.\n    Without that, option F does not compile.",
+      "answer_pages": [
+        3
+      ],
+      "pages": [
+        6,
+        7
+      ]
+    },
+    {
+      "number": 16,
+      "question": "Which of the following can be inserted into the blank to allow the code to compile and run\n    without throwing an exception? (Choose all that apply.)\n    var f = DateTimeFormatter.ofPattern(\"hh o'clock\");\n    System.out.println(f.format(                 .now()));",
+      "choices": {
+        "A": "ZonedDateTime",
+        "B": "LocalDate",
+        "C": "LocalDateTime",
+        "D": "LocalTime",
+        "E": "The code does not compile regardless of what is placed in the blank.",
+        "F": "None of the above"
+      },
+      "answer": "F",
+      "explanation": "The code compiles, but the first line produces a runtime exception regardless of what is\n     inserted into the blank, making option F correct. When creating a custom formatter, any\n    nonsymbol code must be properly escaped using pairs of single quotes ('). In this case, it fails\n    because o is not a symbol. Even if you didn’t know o wasn’t a symbol, the code contains an\n    unmatched single quote. If the properly escaped value of \"hh' o''clock'\" were used,\n    then the correct answers would be ZonedDateTime, LocalDateTime, and LocalTime.\n    Option B would not be correct because LocalDate values do not have an hour part.",
+      "answer_pages": [
+        3
+      ],
+      "pages": [
+        7
+      ]
+    },
+    {
+      "number": 17,
+      "question": "Which of the following statements about resource bundles are correct? (Choose all\n     that apply.)",
+      "choices": {
+        "A": "All keys must be in the same resource bundle to be used.",
+        "B": "A resource bundle is loaded by calling the new ResourceBundle() constructor.",
+        "C": "Resource bundle values are always read using the Properties class.",
+        "D": "Changing the default locale lasts for only a single run of the program.",
+        "E": "If a resource bundle for a specific locale is requested, then the resource bundle for the\n         default locale will not be used.",
+        "F": "It is possible to use a resource bundle for a locale without specifying a default locale."
+      },
+      "answer": [
+        "D",
+        "F"
+      ],
+      "explanation": "Option A is incorrect because Java will look at parent bundles if a key is not found in\n    a specified resource bundle. Option B is incorrect because resource bundles are loaded from\n   static factory methods. Option C is incorrect, as resource bundle values are read from the\n   ResourceBundle object directly. Option D is correct because the locale is changed only\n     in memory. Option E is incorrect, as the resource bundle for the default locale may be used\n       if there is no resource bundle for the specified locale (or its locale without a country code).\n     Finally, option F is correct. The JVM will set a default locale automatically.",
+      "answer_pages": [
+        3
+      ],
+      "pages": [
+        7
+      ]
+    },
+    {
+      "number": 18,
+      "question": "What is the output of the following code?\n    import java.io.*;\n    public class FamilyCar {\n       static class Door implements AutoCloseable {\n          public void close() {\n             System.out.print(\"D\");\n       } }\n       static class Window implements Closeable {\n          public void close() {\n             System.out.print(\"W\");\n             throw new RuntimeException();\n       } }\n       public static void main(String[] args) {\n          var d = new Door();\n          try (d; var w = new Window()) {\n                                                   Review Questions        655\n\n             System.out.print(\"T\");\n          } catch (Exception e) {\n             System.out.print(\"E\");\n          } finally {\n             System.out.print(\"F\");\n          } } }",
+      "choices": {
+        "A": "TWF",
+        "B": "TWDF",
+        "C": "TWDEF",
+        "D": "TWF followed by an exception",
+        "E": "TWDF followed by an exception",
+        "F": "TWEF followed by an exception",
+        "G": "The code does not compile."
+      },
+      "answer": "C",
+      "explanation": "After both resources are declared and created in the try-with-resources statement, T is\n    printed as part of the body. Then the try-with-resources completes and closes the resources\n     in the reverse of the order in which they were declared. After W is printed, an exception is\n    thrown. However, the remaining resource still needs to be closed, so D is printed. Once all\n     the resources are closed, the exception is thrown and swallowed in the catch block, causing\n   E to be printed. Last, the finally block is run, printing F. Therefore, the answer is TWDEF\n    and option C is correct.",
+      "answer_pages": [
+        3
+      ],
+      "pages": [
+        7,
+        8
+      ]
+    },
+    {
+      "number": 19,
+      "question": "Suppose that we have the following three properties files and code. Which bundles are used\n    on lines 8 and 9, respectively?\n    Dolphins.properties\n    name=The Dolphin\n    age=0\n\n    Dolphins_en.properties\n    name=Dolly\n    age=4\n\n    Dolphins_fr.properties\n    name=Dolly\n\n    5: var fr = new Locale(\"fr\");\n    6: Locale.setDefault(new Locale(\"en\", \"US\"));\n    7: var b = ResourceBundle.getBundle(\"Dolphins\", fr);\n    8: b.getString(\"name\");\n    9: b.getString(\"age\");",
+      "choices": {
+        "A": "Dolphins.properties and Dolphins.properties",
+        "B": "Dolphins.properties and Dolphins_en.properties",
+        "C": "Dolphins_en.properties and Dolphins_en.properties",
+        "D": "Dolphins_fr.properties and Dolphins.properties",
+        "E": "Dolphins_fr.properties and Dolphins_en.properties",
+        "F": "The code does not compile.",
+        "G": "None of the above"
+      },
+      "answer": "D",
+      "explanation": "Java will use Dolphins_fr.properties as the matching resource bundle on line 7\nbecause it is an exact match on the language of the requested locale. Line 8 finds a matching key in this file. Line 9 does not find a match in that file; therefore, it has to look higher up in the hierarchy. Once a bundle is chosen, only resources in that hierarchy are allowed. It cannot use the default locale anymore, but it can use the default resource bundle specified by Dolphins.properties. For these reasons, option D is correct.",
+      "answer_pages": null,
+      "pages": [
+        8
+      ]
+    }
+  ],
+  "warnings": [
+    "Question number 19: found 1 question(s) and 2 answer entr(y/ies); left answers unmatched."
+  ]
+}
