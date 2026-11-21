@@ -89,8 +89,8 @@
         "E": "public int may() { return 9.0;}",
         "F": "public int june() { return;}"
       },
-      "answer": null,
-      "explanation": null,
+      "answer": ["A", "C", "D"],
+      "explanation": "Options A and C are correct because a void method is optionally allowed to have a return statement as long as it doesn’t try to return a value. Option B does not compile because null requires a reference object as the return type. Since int is primitive, it is not a reference object. Option D is correct because it returns an int value. Option E does not compile because it tries to return a double when the return type is int. Since a double cannot be assigned to an int, it cannot be returned as one either. Option F does not compile because no value is actually returned.",
       "answer_pages": null,
       "pages": [
         2
