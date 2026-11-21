@@ -337,6 +337,12 @@
       "number": 16,
       "question": "Given the following array, which code snippets print the elements in reverse order from how\n    they are declared? (Choose all that apply.)\n     char[] wolf = {'W', 'e', 'b', 'b', 'y'};\n    A.\n     int q = wolf.length;\n     for( ; ; ) {\n         System.out.print(wolf[--q]);\n        if(q==0) break;\n     }\n\n    B.\n     for(int m=wolf.length-1; m>=0;  --m)\n        System.out.print(wolf[m]);\n                                                   Review Questions        149\n\n    C.\n     for(int z=0; z<wolf.length; z++)\n        System.out.print(wolf[wolf.length-z]);\n\n    D.\n     int x = wolf.length-1;\n     for(int j=0; x>=0 && j==0;  x--)\n        System.out.print(wolf[x]);\n\n    E.\n     final int r = wolf.length;\n     for(int w = r-1; r>-1; w = r-1)\n        System.out.print(wolf[w]);\n\n      F.\n     for(int i=wolf.length; i>0;  --i)\n        System.out.print(wolf[i]);",
       "choices": {
+        "A": "int q = wolf.length;\nfor( ; ; ) {\nSystem.out.print(wolf[--q]);\nif(q==0) break;\n}",
+        "B": "for(int m=wolf.length-1; m>=0; --m)\nSystem.out.print(wolf[m]);",
+        "C": "for(int z=0; z<wolf.length; z++)\nSystem.out.print(wolf[wolf.length-z]);",
+        "D": "int x = wolf.length-1;\nfor(int j=0; x>=0 && j==0; x--)\nSystem.out.print(wolf[x]);",
+        "E": "final int r = wolf.length;\nfor(int w = r-1; r>-1; w = r-1)\nSystem.out.print(wolf[w]);",
+        "F": "for(int i=wolf.length; i>0; --i)\nSystem.out.print(wolf[i]);",
         "G": "None of the above"
       },
       "answer": [

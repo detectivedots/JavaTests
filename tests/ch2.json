@@ -61,6 +61,407 @@
         1,
         2
       ]
+    },
+    {
+      "number": 4,
+      "question": "What is the output of the following code snippet?\n    3: boolean canine = true, wolf = true;\n    4: int teeth = 20;\n    5: canine = (teeth != 10) ^ (wolf=false);\n    6: System.out.println(canine+\", \"+teeth+\", \"+wolf);",
+      "choices": {
+        "A": "true, 20, true",
+        "B": "true, 20, false",
+        "C": "false, 10, true",
+        "D": "false, 20, false",
+        "E": "The code will not compile because of line 5.",
+        "F": "None of the above."
+      },
+      "answer": "B",
+      "explanation": "The code compiles and runs without issue, so option E is not correct. This example\n      is tricky because of the second assignment operator embedded in line 5. The expression\n   (wolf=false) assigns the value false to wolf and returns false for the entire expres-\n     sion. Since teeth does not equal 10, the left side returns true; therefore, the exclusive or\n     (^) of the entire expression assigned to canine is true. The output reflects these assign-\n    ments, with no change to teeth, so option B is the only correct answer.",
+      "answer_pages": [
+        1
+      ],
+      "pages": [
+        2
+      ]
+    },
+    {
+      "number": 5,
+      "question": "Which of the following operators are ranked in increasing or the same order of precedence?\n    Assume the + operator is binary addition, not the unary form. (Choose all that apply.)",
+      "choices": {
+        "A": "+, *, %, --",
+        "B": "++, (int), *",
+        "C": "=, ==, !",
+        "D": "(short), =, !, *",
+        "E": "*, /, %, +, ==",
+        "F": "!, ||, &",
+        "G": "^, +, =, +="
+      },
+      "answer": [
+        "A",
+        "C"
+      ],
+      "explanation": "Options A and C show operators in increasing or the same order of precedence.\n    Options B and E are in decreasing or the same order of precedence. Options D, F, and G are\n     in neither increasing nor decreasing order of precedence. In option D, the assignment oper-\n    ator (=) is between two unary operators, with the multiplication operator (*) incorrectly\n    being in place of highest precedence. In option F, the logical complement operator (!) has the\n     highest order of precedence, so it should be last. In option G, the assignment operators have\n     the lowest order of precedence, not the highest, so the last two operators should be first.\n914      Appendix  ■  Answers to the Review Questions",
+      "answer_pages": [
+        1,
+        2
+      ],
+      "pages": [
+        2
+      ]
+    },
+    {
+      "number": 6,
+      "question": "What is the output of the following program?\n    1: public class CandyCounter {\n    2:    static long addCandy(double fruit, float vegetables) {\n    3:       return (int)fruit+vegetables;\n    4:    }\n    5:\n    6:    public static void main(String[] args) {\n    7:       System.out.print(addCandy(1.4, 2.4f) + \", \");\n    8:       System.out.print(addCandy(1.9, (float)4) + \", \");\n    9:       System.out.print(addCandy((long)(int)(short)2, (float)4)); } }",
+      "choices": {
+        "A": "4, 6, 6.0",
+        "B": "3, 5, 6",
+        "C": "3, 6, 6",
+        "D": "4, 5, 6",
+        "E": "The code does not compile because of line 9.",
+        "F": "None of the above.\n96      Chapter 2  ■  Operators"
+      },
+      "answer": "F",
+      "explanation": "The code does not compile because line 3 contains a compilation error. The cast (int)\n      is applied to fruit, not the expression fruit+vegetables. Since the cast operator has\n    a higher operator precedence than the addition operator, it is applied to fruit, but the\n    expression is promoted to a float, due to vegetables being float. The result cannot\n    be returned as long in the addCandy() method without a cast. For this reason, option F is\n     correct. If parentheses were added around fruit+vegetables, then the output would be\n   3, 5, 6, and option B would be correct. Remember that casting floating-point numbers to\n     integral values results in truncation, not rounding.",
+      "answer_pages": [
+        2
+      ],
+      "pages": [
+        2,
+        3
+      ]
+    },
+    {
+      "number": 7,
+      "question": "What is the output of the following code snippet?\n    int ph = 7, vis = 2;\n    boolean clear = vis > 1 & (vis < 9 || ph < 2);\n    boolean safe = (vis > 2) && (ph++ > 1);\n    boolean tasty = 7 <= --ph;\n    System.out.println(clear + \"-\" + safe + \"-\" + tasty);",
+      "choices": {
+        "A": "true-true-true",
+        "B": "true-true-false",
+        "C": "true-false-true",
+        "D": "true-false-false",
+        "E": "false-true-true",
+        "F": "false-true-false",
+        "G": "false-false-true",
+        "H": "false-false-false"
+      },
+      "answer": "D",
+      "explanation": "In the first boolean expression, vis is 2 and ph is 7, so this expression evaluates to\n   true & (true || false), which reduces to true. The second boolean expression\n    uses the conditional operator, and since (vis > 2) is false, the right side is not evaluated,\n     leaving ph at 7. In the last assignment, ph is 7, and the pre-decrement operator is applied\n      first, reducing the expression to 7 <= 6 and resulting in an assignment of false. For these\n     reasons, option D is the correct answer.",
+      "answer_pages": [
+        2
+      ],
+      "pages": [
+        3
+      ]
+    },
+    {
+      "number": 8,
+      "question": "What is the output of the following code snippet?\n    4: int pig = (short)4;\n    5: pig = pig++;\n    6: long goat = (int)2;\n    7: goat  -= 1.0;\n    8: System.out.print(pig + \" -\" + goat);",
+      "choices": {
+        "A": "4 -1",
+        "B": "4 -2",
+        "C": "5 -1",
+        "D": "5 -2",
+        "E": "The code does not compile due to line 7.",
+        "F": "None of the above."
+      },
+      "answer": "A",
+      "explanation": "The code compiles and runs without issue, so option E is incorrect. Line 7 does not\n    produce a compilation error since the compound operator applies casting automatically.\n    Line 5 increments pig by 1, but it returns the original value of 4 since it is using the post-\n    increment operator. The pig variable is then assigned this value, and the increment operation\n      is discarded. Line 7 just reduces the value of goat by 1, resulting in an output of 4 -1 and\n    making option A the correct answer.",
+      "answer_pages": [
+        2
+      ],
+      "pages": [
+        3
+      ]
+    },
+    {
+      "number": 9,
+      "question": "What are the unique outputs of the following code snippet? (Choose all that apply.)\n    int a = 2, b = 4, c = 2;\n    System.out.println(a > 2 ?  --c : b++);\n    System.out.println(b = (a!=c ? a : b++));\n    System.out.println(a > b ? b < c ? b : 2 : 1);",
+      "choices": {
+        "A": "1",
+        "B": "2",
+        "C": "3",
+        "D": "4",
+        "E": "5",
+        "F": "6",
+        "G": "The code does not compile.\n                                                   Review Questions        97"
+      },
+      "answer": [
+        "A",
+        "D",
+        "E"
+      ],
+      "explanation": "The code compiles without issue, so option G is incorrect. In the first expression,\n   a > 2 is false, so b is incremented to 5; but since the post-increment operator is used,\n   4 is printed, making option D correct. The --c was not applied, because only one of the\n    right-hand expressions was evaluated. In the second expression, a!=c is false since c was\n    never modified. Since b is 5 due to the previous line and the post-increment operator is used,\n   b++ returns 5. The result is then assigned to b using the assignment operator, overriding\n     the incremented value for b and printing 5, making option E correct. In the last expression,\n    parentheses are not required, but lack of parentheses can make ternary expressions difficult\n    to read. From the previous lines, a is 2, b is 5, and c is 2. We can rewrite this expression\n    with parentheses as (2 > 5 ? (5 < 2 ? 5 : 2) : 1). The second ternary expres-\n    sion is never evaluated since 2 > 5 is false, and the expression returns 1, making option\n   A correct.",
+      "answer_pages": [
+        2
+      ],
+      "pages": [
+        3,
+        4
+      ]
+    },
+    {
+      "number": 10,
+      "question": "What are the unique outputs of the following code snippet? (Choose all that apply.)\n    short height = 1, weight = 3;\n    short zebra = (byte) weight * (byte) height;\n    double ox = 1 + height * 2 + weight;\n    long giraffe = 1 + 9 % height + 1;\n    System.out.println(zebra);\n    System.out.println(ox);\n    System.out.println(giraffe);",
+      "choices": {
+        "A": "1",
+        "B": "2",
+        "C": "3",
+        "D": "4",
+        "E": "5",
+        "F": "6",
+        "G": "The code does not compile."
+      },
+      "answer": "G",
+      "explanation": "The code does not compile due to an error on the second line. Even though both height\n    and weight are cast to byte, the multiplication operator automatically promotes them to\n    int, resulting in an attempt to store an int in a short variable. For this reason, the code\n    does not compile, and option G is the only correct answer. This line contains the only compi-\n     lation error.",
+      "answer_pages": [
+        2
+      ],
+      "pages": [
+        4
+      ]
+    },
+    {
+      "number": 11,
+      "question": "What is the output of the following code?\n    11: int sample1 = (2 * 4) % 3;\n    12: int sample2 = 3 * 2 % 3;\n    13: int sample3 = 5 * (1 % 2);\n    14: System.out.println(sample1 + \", \" + sample2 + \", \" + sample3);",
+      "choices": {
+        "A": "0, 0, 5",
+        "B": "1, 2, 10",
+        "C": "2, 1, 5",
+        "D": "2, 0, 5",
+        "E": "3, 1, 10",
+        "F": "3, 2, 6",
+        "G": "The code does not compile."
+      },
+      "answer": "D",
+      "explanation": "First, * and % have the same operator precedence, so the expression is evaluated from left\n    to right unless parentheses are present. The first expression evaluates to 8 % 3, which leaves\n    a remainder of 2. The second expression is evaluated left to right since * and % have the\n    same operator precedence, and it reduces to 6 % 3, which is 0. The last expression reduces\n    to 5 * 1, which is 5. Therefore, the output on line 14 is 2, 0, 5, making option D the\n     correct answer.\n                                                    Chapter 2: Operators        915",
+      "answer_pages": [
+        2,
+        3
+      ],
+      "pages": [
+        4
+      ]
+    },
+    {
+      "number": 12,
+      "question": "The _________ operator increases a value and returns the original value, while the _______\n    operator decreases a value and returns the new value.",
+      "choices": {
+        "A": "post-increment, post-increment",
+        "B": "pre-decrement, post-decrement",
+        "C": "post-increment, post-decrement",
+        "D": "post-increment, pre-decrement",
+        "E": "pre-increment, pre-decrement",
+        "F": "pre-increment, post-decrement\n98      Chapter 2  ■  Operators"
+      },
+      "answer": "D",
+      "explanation": "The pre-prefix indicates the operation is applied first, and the new value is returned,\n    while the post- prefix indicates the original value is returned prior to the operation. Next,\n    increment increases the value, while decrement decreases the value. For these reasons, option\n   D is the correct answer.",
+      "answer_pages": [
+        3
+      ],
+      "pages": [
+        4,
+        5
+      ]
+    },
+    {
+      "number": 13,
+      "question": "What is the output of the following code snippet?\n    boolean sunny = true, raining = false, sunday = true;\n    boolean goingToTheStore = sunny & raining ^ sunday;\n    boolean goingToTheZoo = sunday && !raining;\n    boolean stayingHome = !(goingToTheStore && goingToTheZoo);\n    System.out.println(goingToTheStore + \"-\" + goingToTheZoo\n       + \"-\" +stayingHome);",
+      "choices": {
+        "A": "true-false-false",
+        "B": "false-true-false",
+        "C": "true-true-true",
+        "D": "false-true-true",
+        "E": "false-false-false",
+        "F": "true-true-false",
+        "G": "None of the above"
+      },
+      "answer": "F",
+      "explanation": "The first expression is evaluated from left to right since the operator precedence of & and\n   ^ is the same, letting us reduce it to false ^ sunday, which is true, because sunday\n      is true. In the second expression, we apply the negation operator (!) first, reducing the\n    expression to sunday && true, which evaluates to true. In the last expression, both vari-\n     ables are true, so they reduce to !(true && true), which further reduces to !true, aka\n    false. For these reasons, option F is the correct answer.",
+      "answer_pages": [
+        3
+      ],
+      "pages": [
+        5
+      ]
+    },
+    {
+      "number": 14,
+      "question": "Which of the following statements are correct? (Choose all that apply.)",
+      "choices": {
+        "A": "The return value of an assignment operation expression can be void.",
+        "B": "The inequality operator (!=) can be used to compare objects.",
+        "C": "The equality operator (==) can be used to compare a boolean value with a numeric\n         value.",
+        "D": "During runtime, the & and | operators may cause only the left side of the expression to\n        be evaluated.",
+        "E": "The return value of an assignment operation expression is the value of the newly\n         assigned variable.",
+        "F": "In Java, 0 and false may be used interchangeably.",
+        "G": "The logical complement operator (!) cannot be used to flip numeric values."
+      },
+      "answer": [
+        "B",
+        "E",
+        "G"
+      ],
+      "explanation": "The return value of an assignment operation in the expression is the same as the\n    value of the newly assigned variable. For this reason, option A is incorrect, and option E is\n     correct. Option B is correct, as the equality (==) and inequality (!=) operators can both be\n    used with objects. Option C is incorrect, as boolean and numeric types are not comparable.\n    For example, you can’t say true == 3 without a compilation error. Option D is incorrect,\n    as logical operators evaluate both sides of the expression. The (|) operator will cause both\n     sides to be evaluated. Option F is incorrect, as Java does not accept numbers for boolean\n     values. Finally, option G is correct, as you need to use the negation operator (-) to flip or\n    negate numeric values, not the logical complement operator (!).",
+      "answer_pages": [
+        3
+      ],
+      "pages": [
+        5
+      ]
+    },
+    {
+      "number": 15,
+      "question": "Which operators take three operands or values? (Choose all that apply.)",
+      "choices": {
+        "A": "=",
+        "B": "&&",
+        "C": "*=",
+        "D": "? :",
+        "E": "&",
+        "F": "++",
+        "G": "/\n                                                   Review Questions        99"
+      },
+      "answer": "D",
+      "explanation": "The ternary operator is the only operator that takes three values, making option D the\n    only correct choice. Options A, B, C, E, and G are all binary operators. While they can be\n    strung together in longer expressions, each operation uses only two values at a time. Option\n    F is a unary operator and takes only one value.",
+      "answer_pages": [
+        3
+      ],
+      "pages": [
+        5,
+        6
+      ]
+    },
+    {
+      "number": 16,
+      "question": "How many lines of the following code contain compiler errors?\n    int note = 1 * 2 + (long)3;\n    short melody = (byte)(double)(note *= 2);\n    double song = melody;\n    float symphony = (float)((song == 1_000f) ? song * 2L : song);",
+      "choices": {
+        "A": "0",
+        "B": "1",
+        "C": "2",
+        "D": "3",
+        "E": "4"
+      },
+      "answer": "B",
+      "explanation": "The first line contains a compilation error. The value 3 is cast to long. The 1 * 2 value\n      is evaluated as int but promoted to long when added to the 3. Trying to store a long\n    value in an int variable triggers a compiler error. The other lines do not contain any compi-\n     lation errors, as they store smaller values in larger or same-size data types, with lines 2 and 4\n    using casting to do so. Since only one line does not compile, option B is correct.",
+      "answer_pages": [
+        3
+      ],
+      "pages": [
+        6
+      ]
+    },
+    {
+      "number": 17,
+      "question": "Given the following code snippet, what are the values of the variables after it is executed?\n    (Choose all that apply.)\n    int ticketsTaken = 1;\n    int ticketsSold = 3;\n    ticketsSold += 1 + ticketsTaken++;\n    ticketsTaken *= 2;\n    ticketsSold += (long)1;",
+      "choices": {
+        "A": "ticketsSold is 8.",
+        "B": "ticketsTaken is 2.",
+        "C": "ticketsSold is 6.",
+        "D": "ticketsTaken is 6.",
+        "E": "ticketsSold is 7.",
+        "F": "ticketsTaken is 4.",
+        "G": "The code does not compile."
+      },
+      "answer": [
+        "C",
+        "F"
+      ],
+      "explanation": "The starting values of ticketsTaken and ticketsSold are 1 and 3, respectively.\n     After the first compound assignment, ticketsTaken is incremented to 2. The\n   ticketsSold value is increased from 3 to 5; since the post-increment operator was used,\n     the value of ticketsTaken++ returns 1. On the next line, ticketsTaken is doubled to\n     4. On the final line, ticketsSold is increased by 1 to 6. The final values of the variables\n     are 4 and 6, for ticketsTaken and ticketsSold, respectively, making options C and F\n     the correct answers. Note the last line does not trigger a compilation error as the compound\n    operator automatically casts the right-hand operand.",
+      "answer_pages": [
+        3
+      ],
+      "pages": [
+        6
+      ]
+    },
+    {
+      "number": 18,
+      "question": "Which of the following can be used to change the order of operation in an expression?\n    (Choose all that apply.)",
+      "choices": {
+        "A": "[ ]",
+        "B": "< >",
+        "C": "( )",
+        "D": "\\ /",
+        "E": "{ }",
+        "F": "\" \"\n100      Chapter 2  ■  Operators"
+      },
+      "answer": "C",
+      "explanation": "Only parentheses, ( ), can be used to change the order of operation in an expression,\n    making option C correct. The other operators, such as [ ], < >, and { }, cannot be used as\n    parentheses in Java.",
+      "answer_pages": [
+        3
+      ],
+      "pages": [
+        6,
+        7
+      ]
+    },
+    {
+      "number": 19,
+      "question": "What is the result of executing the following code snippet? (Choose all that apply.)\n    3: int start = 7;\n    4: int end = 4;\n    5: end += ++start;\n    6: start = (byte)(Byte.MAX_VALUE + 1);",
+      "choices": {
+        "A": "start is 0.",
+        "B": "start is -128.",
+        "C": "start is 127.",
+        "D": "end is 8.",
+        "E": "end is 11.",
+        "F": "end is 12.",
+        "G": "The code does not compile.",
+        "H": "The code compiles but throws an exception at runtime."
+      },
+      "answer": [
+        "B",
+        "F"
+      ],
+      "explanation": "The code compiles and runs successfully, so options G and H are incorrect. On line 5,\n     the pre-increment operator is executed first, so start is incremented to 8, and the new value\n      is returned as the right side of the expression. The value of end is computed by adding 8 to\n916      Appendix  ■  Answers to the Review Questions\n\n     the original value of 4, leaving a new value of 12 for end and making option F a correct\n    answer. On line 6, we are incrementing one past the maximum byte value. Due to overflow,\n     this will result in a negative number, making option B the correct answer. Even if you didn’t\n   know the maximum value of byte, you should have known the code compiles and runs and\n    looked for the answer for start with a negative number.",
+      "answer_pages": [
+        3,
+        4
+      ],
+      "pages": [
+        7
+      ]
+    },
+    {
+      "number": 20,
+      "question": "Which of the following statements about unary operators are true? (Choose all that apply.)",
+      "choices": {
+        "A": "Unary operators are always executed before any surrounding numeric binary or ternary\n         operators.",
+        "B": "The -operator can be used to flip a boolean value.",
+        "C": "The pre-increment operator (++) returns the value of the variable before the increment is\n         applied.",
+        "D": "The post-decrement operator (--) returns the value of the variable before the decrement\n            is applied.",
+        "E": "The ! operator cannot be used on numeric values.",
+        "F": "None of the above"
+      },
+      "answer": [
+        "A",
+        "D",
+        "E"
+      ],
+      "explanation": "Unary operators have the highest order of precedence, making option A correct. The\n    negation operator (-) is used only for numeric values, while the logical complement oper-\n    ator (!) is used exclusively for boolean values. For these reasons, option B is incorrect, and\n    option E is correct. Finally, the pre-increment/pre-decrement operators return the new value\n    of the variable, while the post-increment/post-decrement operators return the original vari-\n     able. For these reasons, option C is incorrect, and option D is correct.",
+      "answer_pages": [
+        4
+      ],
+      "pages": [
+        7
+      ]
+    },
+    {
+      "number": 21,
+      "question": "What is the result of executing the following code snippet?\n    int myFavoriteNumber = 8;\n    int bird = ~myFavoriteNumber;\n    int plane = -myFavoriteNumber;\n    var superman = bird == plane ? 5 : 10;\n    System.out.println(bird + \",\" + plane + \",\" + --superman);",
+      "choices": {
+        "A": "-7,-8,9",
+        "B": "-7,-8,10",
+        "C": "-8,-8,4",
+        "D": "-8,-8,5",
+        "E": "-9,-8,9",
+        "F": "-9,-8,10",
+        "G": "None of the above"
+      },
+      "answer": "E",
+      "explanation": "The bitwise complement of 8 can be found by multiplying the number by negative one\n    and subtracting one, making -9 the value of bird. By contrast, plane is -8 because it\n    negates myFavoriteNumber. Since bird and plane are not the same, superman is\n    assigned a value of 10. The pre-decrement operator takes superman, subtracts 1, and\n     returns the new value, printing 9. For this reason, option E is correct.\n\nChapter 3: Making Decisions",
+      "answer_pages": [
+        4
+      ],
+      "pages": [
+        7
+      ]
     }
   ],
   "warnings": [
